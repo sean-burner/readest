@@ -2668,5 +2668,10 @@
   "Exporting {{done}} of {{total}}": "Exportiere {{done}} von {{total}}",
   "Export audiobook": "Hörbuch exportieren",
   "Audiobook exported": "Hörbuch exportiert",
-  "Audiobook export failed: {{error}}": "Hörbuch-Export fehlgeschlagen: {{error}}"
+  "Audiobook export failed: {{error}}": "Hörbuch-Export fehlgeschlagen: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "Erstelle {{done}} von {{total}} · Stopp",
+  "Generate audiobook": "Hörbuch erstellen",
+  "Choose a Read Aloud voice to generate the audiobook with": "Wähle eine Vorlesestimme, um das Hörbuch zu erstellen",
+  "Audiobook ready. Read Aloud now plays it.": "Hörbuch fertig. Vorlesen spielt es jetzt ab.",
+  "Audiobook generation failed: {{error}}": "Hörbuch konnte nicht erstellt werden: {{error}}"
 }

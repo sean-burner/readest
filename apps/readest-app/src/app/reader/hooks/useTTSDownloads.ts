@@ -7,6 +7,8 @@ import {
   exportAudiobook as runAudiobookExport,
   safeFileName,
 } from '@/services/tts/audiobookExport';
+import { generatePairedAudiobook } from '@/services/tts/generateAudiobook';
+import { usePersistPairedAudiobook } from './usePersistPairedAudiobook';
 import { useTranslation } from '@/hooks/useTranslation';
 import type { TTSController } from '@/services/tts/TTSController';
 import {
@@ -41,6 +43,11 @@ export interface UseTTSDownloadsResult {
   // elsewhere. Progress while it runs, else null.
   exportAudiobook: () => Promise<void>;
   exportProgress: AudiobookExportProgress | null;
+  // Generates the book's audiobook with the current voice and attaches it as
+  // the book's paired audiobook, for the in-app player and read-along.
+  generateAudiobook: () => Promise<void>;
+  stopGenerating: () => void;
+  generateProgress: AudiobookExportProgress | null;
 }
 
 // Orchestrates the podcast download surface: derives chapters from the TOC,
@@ -56,7 +63,10 @@ export const useTTSDownloads = (
   clientsReady: boolean,
 ): UseTTSDownloadsResult => {
   const _ = useTranslation();
-  const { getBookData } = useBookDataStore();
+  const { getBookData, getConfig } = useBookDataStore();
+  const persistAudiobook = usePersistPairedAudiobook(bookKey);
+  const generateAbortRef = useRef<AbortController | null>(null);
+  const [generateProgress, setGenerateProgress] = useState<AudiobookExportProgress | null>(null);
   const { appService } = useEnv();
   const [exportProgress, setExportProgress] = useState<AudiobookExportProgress | null>(null);
   const [chapters, setChapters] = useState<DownloadChapter[]>([]);
@@ -242,6 +252,60 @@ export const useTTSDownloads = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appService, bookKey, chapters, exportProgress, getController]);
 
+  const generateAudiobook = useCallback(async () => {
+    if (!appService || generateAbortRef.current) return;
+    const source = getController()?.getAudiobookSource();
+    if (!source) {
+      eventDispatcher.dispatch('toast', {
+        type: 'error',
+        message: _('Choose a Read Aloud voice to generate the audiobook with'),
+      });
+      return;
+    }
+    const book = getBookData(bookKey)?.book;
+    const meta = { title: book?.title || _('Audiobook'), author: book?.author || '' };
+    const abort = new AbortController();
+    generateAbortRef.current = abort;
+    setGenerateProgress({ chapter: 0, total: chapters.length });
+    try {
+      const association = await generatePairedAudiobook(
+        appService,
+        bookHash,
+        chapters,
+        source,
+        meta,
+        getConfig(bookKey)?.audiobook,
+        async (next) => {
+          // Read Aloud switches to the new narration once it is saved.
+          await eventDispatcher.dispatch('tts-stop', { bookKey });
+          await persistAudiobook(next);
+        },
+        setGenerateProgress,
+        abort.signal,
+      );
+      if (association) {
+        eventDispatcher.dispatch('toast', {
+          type: 'info',
+          message: _('Audiobook ready. Read Aloud now plays it.'),
+        });
+      }
+    } catch (err) {
+      console.error('Audiobook generation failed', err);
+      eventDispatcher.dispatch('toast', {
+        type: 'error',
+        message: _('Audiobook generation failed: {{error}}', {
+          error: err instanceof Error ? err.message : String(err),
+        }),
+      });
+    } finally {
+      generateAbortRef.current = null;
+      setGenerateProgress(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appService, bookHash, bookKey, chapters, getController, persistAudiobook]);
+
+  const stopGenerating = useCallback(() => generateAbortRef.current?.abort(), []);
+
   const statusOf = useCallback(
     (chapter: DownloadChapter) => chapterDownloadStatus(chapter, statuses),
     [statuses],
@@ -264,5 +328,8 @@ export const useTTSDownloads = (
     refresh,
     exportAudiobook,
     exportProgress,
+    generateAudiobook,
+    stopGenerating,
+    generateProgress,
   };
 };

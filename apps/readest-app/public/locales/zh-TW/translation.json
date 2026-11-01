@@ -2599,5 +2599,10 @@
   "Exporting {{done}} of {{total}}": "正在匯出 {{done}}/{{total}}",
   "Export audiobook": "匯出有聲書",
   "Audiobook exported": "有聲書已匯出",
-  "Audiobook export failed: {{error}}": "有聲書匯出失敗：{{error}}"
+  "Audiobook export failed: {{error}}": "有聲書匯出失敗：{{error}}",
+  "Generating {{done}} of {{total}} · Stop": "正在產生 {{done}}/{{total}} · 停止",
+  "Generate audiobook": "產生有聲書",
+  "Choose a Read Aloud voice to generate the audiobook with": "請選擇朗讀語音以產生有聲書",
+  "Audiobook ready. Read Aloud now plays it.": "有聲書已就緒，朗讀將播放它。",
+  "Audiobook generation failed: {{error}}": "有聲書產生失敗：{{error}}"
 }

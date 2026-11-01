@@ -2737,5 +2737,10 @@
   "Exporting {{done}} of {{total}}": "Se exportă {{done}} din {{total}}",
   "Export audiobook": "Exportă cartea audio",
   "Audiobook exported": "Cartea audio a fost exportată",
-  "Audiobook export failed: {{error}}": "Exportul cărții audio a eșuat: {{error}}"
+  "Audiobook export failed: {{error}}": "Exportul cărții audio a eșuat: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "Se generează {{done}} din {{total}} · Oprește",
+  "Generate audiobook": "Generează audiobook",
+  "Choose a Read Aloud voice to generate the audiobook with": "Alege o voce de citire cu voce tare pentru a genera audiobook-ul",
+  "Audiobook ready. Read Aloud now plays it.": "Audiobook gata. Citirea cu voce tare îl redă acum.",
+  "Audiobook generation failed: {{error}}": "Generarea audiobook-ului a eșuat: {{error}}"
 }

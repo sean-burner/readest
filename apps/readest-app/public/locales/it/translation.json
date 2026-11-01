@@ -2737,5 +2737,10 @@
   "Exporting {{done}} of {{total}}": "Esportazione {{done}} di {{total}}",
   "Export audiobook": "Esporta audiolibro",
   "Audiobook exported": "Audiolibro esportato",
-  "Audiobook export failed: {{error}}": "Esportazione dell'audiolibro non riuscita: {{error}}"
+  "Audiobook export failed: {{error}}": "Esportazione dell'audiolibro non riuscita: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "Generazione {{done}} di {{total}} · Interrompi",
+  "Generate audiobook": "Genera audiolibro",
+  "Choose a Read Aloud voice to generate the audiobook with": "Scegli una voce di lettura ad alta voce per generare l'audiolibro",
+  "Audiobook ready. Read Aloud now plays it.": "Audiolibro pronto. La lettura ad alta voce ora lo riproduce.",
+  "Audiobook generation failed: {{error}}": "Generazione dell'audiolibro non riuscita: {{error}}"
 }

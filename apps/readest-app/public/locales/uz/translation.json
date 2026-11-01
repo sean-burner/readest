@@ -2668,5 +2668,10 @@
   "Exporting {{done}} of {{total}}": "{{total}} tadan {{done}} tasi eksport qilinmoqda",
   "Export audiobook": "Audiokitobni eksport qilish",
   "Audiobook exported": "Audiokitob eksport qilindi",
-  "Audiobook export failed: {{error}}": "Audiokitobni eksport qilib bo‘lmadi: {{error}}"
+  "Audiobook export failed: {{error}}": "Audiokitobni eksport qilib bo‘lmadi: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "Yaratilmoqda {{done}} / {{total}} · Toʻxtatish",
+  "Generate audiobook": "Audiokitob yaratish",
+  "Choose a Read Aloud voice to generate the audiobook with": "Audiokitob yaratish uchun ovoz chiqarib oʻqish ovozini tanlang",
+  "Audiobook ready. Read Aloud now plays it.": "Audiokitob tayyor. Ovoz chiqarib oʻqish endi uni ijro etadi.",
+  "Audiobook generation failed: {{error}}": "Audiokitob yaratilmadi: {{error}}"
 }

@@ -2668,5 +2668,10 @@
   "Exporting {{done}} of {{total}}": "Exportálás: {{done}} / {{total}}",
   "Export audiobook": "Hangoskönyv exportálása",
   "Audiobook exported": "Hangoskönyv exportálva",
-  "Audiobook export failed: {{error}}": "A hangoskönyv exportálása sikertelen: {{error}}"
+  "Audiobook export failed: {{error}}": "A hangoskönyv exportálása sikertelen: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "Készítés: {{done}} / {{total}} · Leállítás",
+  "Generate audiobook": "Hangoskönyv készítése",
+  "Choose a Read Aloud voice to generate the audiobook with": "Válassz felolvasó hangot a hangoskönyv elkészítéséhez",
+  "Audiobook ready. Read Aloud now plays it.": "A hangoskönyv elkészült. A felolvasás mostantól ezt játssza le.",
+  "Audiobook generation failed: {{error}}": "A hangoskönyv elkészítése sikertelen: {{error}}"
 }

@@ -28,7 +28,7 @@ export const isAudiobookFilePath = (bookHash: string, path: string): boolean => 
   );
 };
 
-const deleteAudiobookFiles = async (
+export const deleteAudiobookFiles = async (
   storage: AudiobookStorage,
   bookHash: string,
   files: AudiobookFile[],

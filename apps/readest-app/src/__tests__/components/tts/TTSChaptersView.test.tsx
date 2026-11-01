@@ -63,6 +63,9 @@ const makeDownloads = (overrides: Partial<UseTTSDownloadsResult> = {}): UseTTSDo
   refresh: vi.fn().mockResolvedValue(undefined),
   exportAudiobook: vi.fn().mockResolvedValue(undefined),
   exportProgress: null,
+  generateAudiobook: vi.fn().mockResolvedValue(undefined),
+  stopGenerating: vi.fn(),
+  generateProgress: null,
   ...overrides,
 });
 
@@ -146,6 +149,21 @@ describe('TTSChaptersView', () => {
     render(<TTSChaptersView downloads={downloads} activeSectionIndex={null} isEink={false} />);
     const button = screen.getByText('Download all') as HTMLButtonElement;
     expect(button.disabled).toBe(true);
+  });
+
+  test('generates the audiobook from the chapter list, even before downloading', () => {
+    const downloads = makeDownloads();
+    render(<TTSChaptersView downloads={downloads} activeSectionIndex={null} isEink={false} />);
+    fireEvent.click(screen.getByText('Generate audiobook'));
+    expect(downloads.generateAudiobook).toHaveBeenCalledTimes(1);
+  });
+
+  test('shows generation progress as a stop control', () => {
+    const downloads = makeDownloads({ generateProgress: { chapter: 2, total: 5 } });
+    render(<TTSChaptersView downloads={downloads} activeSectionIndex={null} isEink={false} />);
+    fireEvent.click(screen.getByText('Generating 2 of 5 · Stop'));
+    expect(downloads.stopGenerating).toHaveBeenCalledTimes(1);
+    expect(screen.queryByText('Generate audiobook')).toBeNull();
   });
 
   test('offers the audiobook export only once every chapter is downloaded', () => {

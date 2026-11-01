@@ -2599,5 +2599,10 @@
   "Exporting {{done}} of {{total}}": "正在导出 {{done}}/{{total}}",
   "Export audiobook": "导出有声书",
   "Audiobook exported": "有声书已导出",
-  "Audiobook export failed: {{error}}": "有声书导出失败：{{error}}"
+  "Audiobook export failed: {{error}}": "有声书导出失败：{{error}}",
+  "Generating {{done}} of {{total}} · Stop": "正在生成 {{done}}/{{total}} · 停止",
+  "Generate audiobook": "生成有声书",
+  "Choose a Read Aloud voice to generate the audiobook with": "请选择朗读语音以生成有声书",
+  "Audiobook ready. Read Aloud now plays it.": "有声书已就绪，朗读将播放它。",
+  "Audiobook generation failed: {{error}}": "有声书生成失败：{{error}}"
 }

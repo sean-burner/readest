@@ -4,6 +4,7 @@ import {
   concatMp3,
   exportAudiobook,
   id3Tag,
+  mp3DurationMs,
 } from '@/services/tts/audiobookExport';
 import type { DownloadChapter } from '@/services/tts/downloadChapters';
 
@@ -105,5 +106,21 @@ describe('exportAudiobook', () => {
       abort.signal,
     );
     expect(write).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('mp3DurationMs', () => {
+  it('adds up MPEG-1 frames after a leading ID3 tag', () => {
+    const bytes = new Uint8Array(14 + 417 * 100);
+    bytes.set([0x49, 0x44, 0x33, 3, 0, 0, 0, 0, 0, 4]);
+    for (let i = 0; i < 100; i++) bytes.set([0xff, 0xfb, 0x90, 0x00], 14 + i * 417);
+    expect(mp3DurationMs(bytes)).toBe(Math.round((100 * 1152 * 1000) / 44100));
+  });
+
+  it('reads MPEG-2 frames, which carry half the samples', () => {
+    // 48 kbps, 24 kHz (Edge's format): 144-byte frames of 576 samples.
+    const bytes = new Uint8Array(144 * 50);
+    for (let i = 0; i < 50; i++) bytes.set([0xff, 0xf3, 0x64, 0x00], i * 144);
+    expect(mp3DurationMs(bytes)).toBe(Math.round((50 * 576 * 1000) / 24000));
   });
 });

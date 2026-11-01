@@ -2806,5 +2806,10 @@
   "Exporting {{done}} of {{total}}": "Експорт {{done}} з {{total}}",
   "Export audiobook": "Експортувати аудіокнигу",
   "Audiobook exported": "Аудіокнигу експортовано",
-  "Audiobook export failed: {{error}}": "Не вдалося експортувати аудіокнигу: {{error}}"
+  "Audiobook export failed: {{error}}": "Не вдалося експортувати аудіокнигу: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "Створення {{done}} з {{total}} · Зупинити",
+  "Generate audiobook": "Створити аудіокнигу",
+  "Choose a Read Aloud voice to generate the audiobook with": "Виберіть голос для читання вголос, щоб створити аудіокнигу",
+  "Audiobook ready. Read Aloud now plays it.": "Аудіокнига готова. Читання вголос тепер відтворює її.",
+  "Audiobook generation failed: {{error}}": "Не вдалося створити аудіокнигу: {{error}}"
 }

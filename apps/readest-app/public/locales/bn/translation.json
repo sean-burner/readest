@@ -2668,5 +2668,10 @@
   "Exporting {{done}} of {{total}}": "{{total}}টির মধ্যে {{done}}টি রপ্তানি হচ্ছে",
   "Export audiobook": "অডিওবুক রপ্তানি করুন",
   "Audiobook exported": "অডিওবুক রপ্তানি হয়েছে",
-  "Audiobook export failed: {{error}}": "অডিওবুক রপ্তানি ব্যর্থ: {{error}}"
+  "Audiobook export failed: {{error}}": "অডিওবুক রপ্তানি ব্যর্থ: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "তৈরি হচ্ছে {{done}} / {{total}} · থামান",
+  "Generate audiobook": "অডিওবুক তৈরি করুন",
+  "Choose a Read Aloud voice to generate the audiobook with": "অডিওবুক তৈরি করতে একটি জোরে পড়ার কণ্ঠ বেছে নিন",
+  "Audiobook ready. Read Aloud now plays it.": "অডিওবুক প্রস্তুত। জোরে পড়া এখন এটি চালাবে।",
+  "Audiobook generation failed: {{error}}": "অডিওবুক তৈরি ব্যর্থ হয়েছে: {{error}}"
 }

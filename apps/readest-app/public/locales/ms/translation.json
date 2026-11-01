@@ -2599,5 +2599,10 @@
   "Exporting {{done}} of {{total}}": "Mengeksport {{done}} daripada {{total}}",
   "Export audiobook": "Eksport buku audio",
   "Audiobook exported": "Buku audio dieksport",
-  "Audiobook export failed: {{error}}": "Gagal mengeksport buku audio: {{error}}"
+  "Audiobook export failed: {{error}}": "Gagal mengeksport buku audio: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "Menjana {{done}} daripada {{total}} · Henti",
+  "Generate audiobook": "Jana buku audio",
+  "Choose a Read Aloud voice to generate the audiobook with": "Pilih suara Baca Kuat untuk menjana buku audio",
+  "Audiobook ready. Read Aloud now plays it.": "Buku audio sedia. Baca Kuat kini memainkannya.",
+  "Audiobook generation failed: {{error}}": "Gagal menjana buku audio: {{error}}"
 }

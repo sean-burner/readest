@@ -2668,5 +2668,10 @@
   "Exporting {{done}} of {{total}}": "{{total}} න් {{done}} අපනයනය කරමින්",
   "Export audiobook": "ශ්‍රව්‍ය පොත අපනයනය කරන්න",
   "Audiobook exported": "ශ්‍රව්‍ය පොත අපනයනය කළා",
-  "Audiobook export failed: {{error}}": "ශ්‍රව්‍ය පොත අපනයනය අසාර්ථකයි: {{error}}"
+  "Audiobook export failed: {{error}}": "ශ්‍රව්‍ය පොත අපනයනය අසාර්ථකයි: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "සාදමින් {{done}} / {{total}} · නවත්වන්න",
+  "Generate audiobook": "ශ්‍රව්‍ය පොතක් සාදන්න",
+  "Choose a Read Aloud voice to generate the audiobook with": "ශ්‍රව්‍ය පොත සෑදීමට හඬ නඟා කියවීමේ හඬක් තෝරන්න",
+  "Audiobook ready. Read Aloud now plays it.": "ශ්‍රව්‍ය පොත සූදානම්. හඬ නඟා කියවීම දැන් එය වාදනය කරයි.",
+  "Audiobook generation failed: {{error}}": "ශ්‍රව්‍ය පොත සෑදීම අසාර්ථක විය: {{error}}"
 }

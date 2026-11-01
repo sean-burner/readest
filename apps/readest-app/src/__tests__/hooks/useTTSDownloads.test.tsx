@@ -18,6 +18,10 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock('@/context/EnvContext', () => ({ useEnv: () => ({ appService: mocks.appService }) }));
 vi.mock('@/utils/event', () => ({ eventDispatcher: { dispatch: mocks.toast } }));
+const persistAudiobook = vi.hoisted(() => vi.fn(async () => {}));
+vi.mock('@/app/reader/hooks/usePersistPairedAudiobook', () => ({
+  usePersistPairedAudiobook: () => persistAudiobook,
+}));
 
 vi.mock('@/services/tts/ttsDownloadManager', () => ({
   ttsDownloadManager: {
@@ -39,7 +43,7 @@ vi.mock('@/hooks/useTranslation', () => ({
 }));
 
 vi.mock('@/store/bookDataStore', () => ({
-  useBookDataStore: () => ({ getBookData: mocks.getBookData }),
+  useBookDataStore: () => ({ getBookData: mocks.getBookData, getConfig: () => null }),
 }));
 
 import { useTTSDownloads } from '@/app/reader/hooks/useTTSDownloads';
@@ -66,6 +70,45 @@ describe('useTTSDownloads', () => {
   afterEach(() => {
     cleanup();
     useTTSDownloadStore.setState({ items: {} });
+  });
+
+  test('generates the audiobook into the book and saves it as its paired audiobook', async () => {
+    const appService = {
+      createDir: vi.fn(async () => {}),
+      writeFile: vi.fn(async () => {}),
+      deleteFile: vi.fn(async () => {}),
+    };
+    mocks.appService = appService;
+    mocks.getBookData.mockReturnValue({
+      bookDoc: { toc: [] },
+      book: { title: 'Book', author: '' },
+    });
+    const controller = makeController(() => new Map());
+    Object.assign(controller, {
+      getAudiobookSource: () => ({
+        sentencesOf: async () => [{ lang: 'en', text: 'a' }],
+        audioOf: async () => new Uint8Array([0xff, 0xfb, 0x90, 0x00]).buffer,
+      }),
+    });
+    const { result } = renderHook(() => useTTSDownloads('bookhash', () => controller, false, true));
+    await waitFor(() => expect(result.current.chapters.length).toBe(1));
+
+    await act(() => result.current.generateAudiobook());
+
+    expect(appService.writeFile).toHaveBeenCalledWith(
+      expect.stringMatching(/^bookhash\/audiobook\/\d+-01 - Section \{\{index\}\}\.mp3$/),
+      'Books',
+      expect.anything(),
+    );
+    expect(mocks.toast).toHaveBeenCalledWith('tts-stop', { bookKey: 'bookhash' });
+    expect(persistAudiobook).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: 'Book',
+        files: [expect.objectContaining({ name: '01 - Section {{index}}.mp3' })],
+      }),
+    );
+    expect(result.current.generateProgress).toBeNull();
+    mocks.appService = null;
   });
 
   test('exports each chapter as an MP3 into a folder named after the book on desktop', async () => {

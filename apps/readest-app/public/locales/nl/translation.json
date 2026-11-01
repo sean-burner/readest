@@ -2668,5 +2668,10 @@
   "Exporting {{done}} of {{total}}": "{{done}} van {{total}} exporteren",
   "Export audiobook": "Luisterboek exporteren",
   "Audiobook exported": "Luisterboek geëxporteerd",
-  "Audiobook export failed: {{error}}": "Luisterboek exporteren mislukt: {{error}}"
+  "Audiobook export failed: {{error}}": "Luisterboek exporteren mislukt: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "Genereren {{done}} van {{total}} · Stoppen",
+  "Generate audiobook": "Luisterboek genereren",
+  "Choose a Read Aloud voice to generate the audiobook with": "Kies een voorleesstem om het luisterboek te genereren",
+  "Audiobook ready. Read Aloud now plays it.": "Luisterboek klaar. Voorlezen speelt het nu af.",
+  "Audiobook generation failed: {{error}}": "Luisterboek genereren mislukt: {{error}}"
 }

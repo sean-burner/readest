@@ -2668,5 +2668,10 @@
   "Exporting {{done}} of {{total}}": "Exporterar {{done}} av {{total}}",
   "Export audiobook": "Exportera ljudbok",
   "Audiobook exported": "Ljudboken exporterades",
-  "Audiobook export failed: {{error}}": "Det gick inte att exportera ljudboken: {{error}}"
+  "Audiobook export failed: {{error}}": "Det gick inte att exportera ljudboken: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "Skapar {{done}} av {{total}} · Stoppa",
+  "Generate audiobook": "Skapa ljudbok",
+  "Choose a Read Aloud voice to generate the audiobook with": "Välj en uppläsningsröst för att skapa ljudboken",
+  "Audiobook ready. Read Aloud now plays it.": "Ljudboken är klar. Uppläsning spelar den nu.",
+  "Audiobook generation failed: {{error}}": "Det gick inte att skapa ljudboken: {{error}}"
 }

@@ -2599,5 +2599,10 @@
   "Exporting {{done}} of {{total}}": "{{total}} 件中 {{done}} 件をエクスポート中",
   "Export audiobook": "オーディオブックをエクスポート",
   "Audiobook exported": "オーディオブックをエクスポートしました",
-  "Audiobook export failed: {{error}}": "オーディオブックのエクスポートに失敗しました: {{error}}"
+  "Audiobook export failed: {{error}}": "オーディオブックのエクスポートに失敗しました: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "生成中 {{done}} / {{total}} · 停止",
+  "Generate audiobook": "オーディオブックを生成",
+  "Choose a Read Aloud voice to generate the audiobook with": "オーディオブックを生成するには読み上げの音声を選択してください",
+  "Audiobook ready. Read Aloud now plays it.": "オーディオブックの準備ができました。読み上げで再生されます。",
+  "Audiobook generation failed: {{error}}": "オーディオブックの生成に失敗しました: {{error}}"
 }

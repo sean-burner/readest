@@ -2806,5 +2806,10 @@
   "Exporting {{done}} of {{total}}": "Izvažanje {{done}} od {{total}}",
   "Export audiobook": "Izvozi zvočno knjigo",
   "Audiobook exported": "Zvočna knjiga izvožena",
-  "Audiobook export failed: {{error}}": "Izvoz zvočne knjige ni uspel: {{error}}"
+  "Audiobook export failed: {{error}}": "Izvoz zvočne knjige ni uspel: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "Ustvarjanje {{done}} od {{total}} · Ustavi",
+  "Generate audiobook": "Ustvari zvočno knjigo",
+  "Choose a Read Aloud voice to generate the audiobook with": "Izberite glas za branje na glas, da ustvarite zvočno knjigo",
+  "Audiobook ready. Read Aloud now plays it.": "Zvočna knjiga je pripravljena. Branje na glas jo zdaj predvaja.",
+  "Audiobook generation failed: {{error}}": "Ustvarjanje zvočne knjige ni uspelo: {{error}}"
 }

@@ -2737,5 +2737,10 @@
   "Exporting {{done}} of {{total}}": "מייצא {{done}} מתוך {{total}}",
   "Export audiobook": "ייצוא ספר שמע",
   "Audiobook exported": "ספר השמע יוצא",
-  "Audiobook export failed: {{error}}": "ייצוא ספר השמע נכשל: {{error}}"
+  "Audiobook export failed: {{error}}": "ייצוא ספר השמע נכשל: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "יוצר {{done}} מתוך {{total}} · עצירה",
+  "Generate audiobook": "יצירת ספר שמע",
+  "Choose a Read Aloud voice to generate the audiobook with": "בחרו קול הקראה כדי ליצור את ספר השמע",
+  "Audiobook ready. Read Aloud now plays it.": "ספר השמע מוכן. ההקראה מנגנת אותו עכשיו.",
+  "Audiobook generation failed: {{error}}": "יצירת ספר השמע נכשלה: {{error}}"
 }

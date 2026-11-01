@@ -2599,5 +2599,10 @@
   "Exporting {{done}} of {{total}}": "กำลังส่งออก {{done}} จาก {{total}}",
   "Export audiobook": "ส่งออกหนังสือเสียง",
   "Audiobook exported": "ส่งออกหนังสือเสียงแล้ว",
-  "Audiobook export failed: {{error}}": "ส่งออกหนังสือเสียงไม่สำเร็จ: {{error}}"
+  "Audiobook export failed: {{error}}": "ส่งออกหนังสือเสียงไม่สำเร็จ: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "กำลังสร้าง {{done}} จาก {{total}} · หยุด",
+  "Generate audiobook": "สร้างหนังสือเสียง",
+  "Choose a Read Aloud voice to generate the audiobook with": "เลือกเสียงอ่านออกเสียงเพื่อสร้างหนังสือเสียง",
+  "Audiobook ready. Read Aloud now plays it.": "หนังสือเสียงพร้อมแล้ว การอ่านออกเสียงจะเล่นหนังสือนี้",
+  "Audiobook generation failed: {{error}}": "สร้างหนังสือเสียงไม่สำเร็จ: {{error}}"
 }

@@ -39,8 +39,6 @@ import {
 import { findABSServerById } from '@/store/absServerStore';
 import { useBookDataStore } from '@/store/bookDataStore';
 import { useLibraryStore } from '@/store/libraryStore';
-import { useReaderStore } from '@/store/readerStore';
-import { useSettingsStore } from '@/store/settingsStore';
 import type {
   AudiobookChapter,
   AudiobookChapterMapping,
@@ -50,6 +48,7 @@ import type {
 import { eventDispatcher } from '@/utils/event';
 import AudiobookChapterPicker, { formatAudiobookTimecode } from './AudiobookChapterPicker';
 import StepProgress from './AudiobookStepProgress';
+import { usePersistPairedAudiobook } from '@/app/reader/hooks/usePersistPairedAudiobook';
 
 type WizardStep = 'summary' | 'select' | 'abs' | 'anchor' | 'review';
 
@@ -102,13 +101,11 @@ const nativeFilePath = (file: File): string | undefined => {
 
 const AudiobookPairingDialog = ({ bookKey, bookDoc, onClose }: AudiobookPairingDialogProps) => {
   const _ = useTranslation();
-  const { envConfig, appService } = useEnv();
-  const { settings } = useSettingsStore();
+  const { appService } = useEnv();
   const { selectFiles } = useFileSelector(appService, _);
   const getConfig = useBookDataStore((state) => state.getConfig);
   const getBookData = useBookDataStore((state) => state.getBookData);
-  const setConfig = useBookDataStore((state) => state.setConfig);
-  const saveConfig = useBookDataStore((state) => state.saveConfig);
+  const persistAssociation = usePersistPairedAudiobook(bookKey);
   const initialAssociation = getConfig(bookKey)?.audiobook ?? null;
   const [association] = useState<PairedAudiobook | null>(initialAssociation);
   const [step, setStep] = useState<WizardStep>(association ? 'summary' : 'select');
@@ -192,29 +189,6 @@ const AudiobookPairingDialog = ({ bookKey, bookDoc, onClose }: AudiobookPairingD
       cancelled = true;
     };
   }, [appService]);
-
-  const persistAssociation = async (nextAssociation: PairedAudiobook | undefined) => {
-    const current = getConfig(bookKey);
-    if (!current) throw new Error(_('Book configuration is unavailable'));
-    const viewSettings = {
-      ...current.viewSettings,
-      ...(nextAssociation ? { ttsUseNarration: true } : {}),
-    };
-    const updatedConfig = {
-      ...current,
-      audiobook: nextAssociation,
-      viewSettings,
-      updatedAt: Date.now(),
-    };
-    await saveConfig(envConfig, bookKey, updatedConfig, settings);
-    setConfig(bookKey, { audiobook: nextAssociation, viewSettings });
-    const liveViewSettings = useReaderStore.getState().getViewSettings(bookKey);
-    if (liveViewSettings && nextAssociation) {
-      useReaderStore
-        .getState()
-        .setViewSettings(bookKey, { ...liveViewSettings, ttsUseNarration: true });
-    }
-  };
 
   const prepareSelectedFiles = async () => {
     if (!appService) return;
