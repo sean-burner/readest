@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
-const mocks = vi.hoisted(() => ({ streamText: vi.fn() }));
+const mocks = vi.hoisted(() => ({ streamText: vi.fn(), generateText: vi.fn() }));
 
 vi.mock('@/hooks/useTranslation', () => ({
   useTranslation: () => (s: string, o?: Record<string, string>) =>
@@ -13,7 +13,9 @@ vi.mock('@/services/ai/providers', () => ({
 vi.mock('ai', async (importOriginal) => ({
   ...(await importOriginal<typeof import('ai')>()),
   streamText: mocks.streamText,
+  generateText: mocks.generateText,
 }));
+vi.mock('@/context/EnvContext', () => ({ useEnv: () => ({ appService: { saveFile: vi.fn() } }) }));
 
 import ClaudeWordChat, {
   buildWordChatSystemPrompt,
@@ -88,6 +90,23 @@ describe('ClaudeWordChat', () => {
     fireEvent.click(screen.getByText('Send'));
     await waitFor(() => expect(screen.getByText('Invalid API key')).toBeTruthy());
     expect(screen.getAllByRole('listitem')).toHaveLength(1);
+  });
+});
+
+describe('ClaudeWordChat animation', () => {
+  afterEach(cleanup);
+
+  it('plays the animation Claude writes in a sandboxed frame', async () => {
+    setClaude(true);
+    mocks.generateText.mockResolvedValue({ text: '```js\nloop();\n```' });
+    render(<ClaudeWordChat word='bank' selection={selection} />);
+    fireEvent.click(screen.getByText('Discuss with Claude'));
+    fireEvent.click(screen.getByText('Animate'));
+
+    const frame = (await screen.findByTitle('Animation of "bank"')) as HTMLIFrameElement;
+    expect(frame.getAttribute('sandbox')).toBe('allow-scripts');
+    expect(frame.getAttribute('srcdoc')).toContain('loop();');
+    expect(mocks.generateText.mock.calls[0]![0].prompt).toContain('We walked along the [[bank]]');
   });
 });
 
