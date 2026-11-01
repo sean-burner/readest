@@ -5,7 +5,8 @@ const mocks = vi.hoisted(() => ({
   premium: true,
 }));
 
-vi.mock('@/services/dictionaries/contextDictionary', () => ({
+vi.mock('@/services/dictionaries/contextDictionary', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/services/dictionaries/contextDictionary')>()),
   lookupInContext: mocks.lookupInContext,
 }));
 vi.mock('@/utils/access', () => ({
@@ -16,6 +17,9 @@ vi.mock('@/utils/access', () => ({
 import { contextProvider } from '@/services/dictionaries/providers/contextProvider';
 import { useCustomTranslatorStore } from '@/store/customTranslatorStore';
 import { useCustomDictionaryStore } from '@/store/customDictionaryStore';
+import { useSettingsStore } from '@/store/settingsStore';
+import { DEFAULT_AI_SETTINGS } from '@/services/ai/constants';
+import type { SystemSettings } from '@/types/settings';
 import type { CustomTranslator } from '@/types/translation';
 
 const llm = (id: string, patch: Partial<CustomTranslator> = {}): CustomTranslator => ({
@@ -59,10 +63,38 @@ const setTranslators = (translators: CustomTranslator[], contextTranslatorId?: s
   }));
 };
 
+const setAISettings = (patch: Partial<typeof DEFAULT_AI_SETTINGS>) =>
+  useSettingsStore.setState({
+    settings: { aiSettings: { ...DEFAULT_AI_SETTINGS, ...patch } } as SystemSettings,
+  });
+
 describe('context dictionary provider', () => {
   beforeEach(() => {
     mocks.lookupInContext.mockReset();
     mocks.premium = true;
+    setAISettings({});
+  });
+
+  it('asks Claude when it is the configured AI provider, even without premium', async () => {
+    mocks.premium = false;
+    setTranslators([]);
+    setAISettings({ enabled: true, provider: 'anthropic', anthropicApiKey: 'sk-ant-test' });
+    mocks.lookupInContext.mockResolvedValue(entry);
+
+    const outcome = await lookup();
+
+    expect(outcome).toEqual({ ok: true, headword: 'bank', sourceLabel: 'Claude' });
+    const [source] = mocks.lookupInContext.mock.calls[0]!;
+    expect(source.id).toBe('anthropic');
+    expect(source.providerOptions).toEqual({ anthropic: { effort: 'low' } });
+  });
+
+  it('ignores Claude while the AI assistant is turned off', async () => {
+    setTranslators([llm('a')]);
+    setAISettings({ enabled: false, provider: 'anthropic', anthropicApiKey: 'sk-ant-test' });
+    mocks.lookupInContext.mockResolvedValue(entry);
+    await lookup();
+    expect(mocks.lookupInContext.mock.calls[0]![0].id).toBe('a');
   });
 
   it('is unsupported without an OpenAI-compatible translator', async () => {

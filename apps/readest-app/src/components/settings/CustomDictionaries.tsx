@@ -36,7 +36,10 @@ import {
 import { isCustomTranslatorAllowed } from '@/utils/access';
 import { eventDispatcher } from '@/utils/event';
 import { evictProvider, isSystemDictionaryEnabled } from '@/services/dictionaries/registry';
-import { getContextTranslator } from '@/services/dictionaries/providers/contextProvider';
+import {
+  getClaudeContextModel,
+  getContextTranslator,
+} from '@/services/dictionaries/providers/contextProvider';
 import { BUILTIN_PROVIDER_IDS } from '@/services/dictionaries/types';
 import {
   clearRememberedLookupApp,
@@ -298,6 +301,8 @@ const CustomDictionaries: React.FC<CustomDictionariesProps> = ({ onBack }) => {
   const hasPremium = isCustomTranslatorAllowed(token);
   const llmTranslators = getLLMTranslators();
   const contextTranslator = hasPremium ? getContextTranslator() : undefined;
+  // Claude, when it is the AI provider, answers the context dictionary itself.
+  const claudeContext = getClaudeContextModel();
 
   const { selectFiles } = useFileSelector(appService, _);
   const [importing, setImporting] = useState(false);
@@ -462,12 +467,14 @@ const CustomDictionaries: React.FC<CustomDictionariesProps> = ({ onBack }) => {
           id,
           label: builtinLabel(id, _),
           kind: 'builtin',
-          disabled: !contextTranslator,
-          reason: !hasPremium
-            ? _('Requires Readest Premium.')
-            : !contextTranslator
-              ? _('Add an OpenAI-compatible translator in Custom Translators to use it.')
-              : undefined,
+          disabled: !contextTranslator && !claudeContext,
+          reason: claudeContext
+            ? undefined
+            : !hasPremium
+              ? _('Requires Readest Premium.')
+              : !contextTranslator
+                ? _('Add an OpenAI-compatible translator in Custom Translators to use it.')
+                : undefined,
         });
         continue;
       }

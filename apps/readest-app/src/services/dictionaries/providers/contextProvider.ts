@@ -1,20 +1,29 @@
 /**
  * Built-in AI context dictionary (#5544).
  *
- * Explains the selection as it is used in its passage, through one of the
- * user's OpenAI-compatible custom translators. Custom translators are a
- * premium feature, so the provider is unsupported (its card hidden) without
- * premium or without such a translator.
+ * Explains the selection as it is used in its passage. Claude answers when it
+ * is the configured AI provider; otherwise one of the user's OpenAI-compatible
+ * custom translators does. Custom translators are a premium feature, so
+ * without Claude the provider is unsupported (its card hidden) without premium
+ * or without such a translator.
  */
 import i18n from '@/i18n/i18n';
 import { getAccessToken, isCustomTranslatorAllowed } from '@/utils/access';
 import { getTargetLang } from '@/utils/misc';
 import { getLLMTranslators } from '@/store/customTranslatorStore';
 import { useCustomDictionaryStore } from '@/store/customDictionaryStore';
+import { useSettingsStore } from '@/store/settingsStore';
+import { getAIProvider } from '@/services/ai/providers';
+import { isClaudeConfigured } from '@/services/ai/providers/AnthropicProvider';
 import type { CustomTranslator } from '@/types/translation';
 import type { DictionaryProvider } from '../types';
 import { BUILTIN_PROVIDER_IDS } from '../types';
-import { lookupInContext, type ContextEntry } from '../contextDictionary';
+import {
+  lookupInContext,
+  translatorContextModel,
+  type ContextEntry,
+  type ContextModel,
+} from '../contextDictionary';
 
 const _ = (key: string, options?: Record<string, string>) =>
   i18n.t(key, { defaultValue: key, ...options });
@@ -24,6 +33,29 @@ export const getContextTranslator = (): CustomTranslator | undefined => {
   const translators = getLLMTranslators();
   const id = useCustomDictionaryStore.getState().settings.contextTranslatorId;
   return translators.find((t) => t.id === id) ?? translators[0];
+};
+
+/** Claude as the context model, or undefined when Claude is not the configured AI provider. */
+export const getClaudeContextModel = (): ContextModel | undefined => {
+  const ai = useSettingsStore.getState().settings?.aiSettings;
+  if (!isClaudeConfigured(ai)) return undefined;
+  const model = ai.anthropicModel || 'claude';
+  return {
+    id: 'anthropic',
+    name: 'Claude',
+    cacheKey: JSON.stringify(['anthropic', model]),
+    getModel: async () => getAIProvider(ai).getModel(),
+    // A short dictionary entry: keep thinking light so the card appears fast.
+    providerOptions: { anthropic: { effort: 'low' } },
+  };
+};
+
+const getContextModel = async (): Promise<ContextModel | undefined> => {
+  const claude = getClaudeContextModel();
+  if (claude) return claude;
+  if (!isCustomTranslatorAllowed(await getAccessToken())) return undefined;
+  const translator = getContextTranslator();
+  return translator ? translatorContextModel(translator) : undefined;
 };
 
 const append = (parent: HTMLElement, tag: string, className: string, text: string) => {
@@ -69,15 +101,12 @@ export const contextProvider: DictionaryProvider = {
   kind: 'builtin',
   label: 'Context Dictionary',
   async lookup(word, ctx) {
-    if (!isCustomTranslatorAllowed(await getAccessToken())) {
-      return { ok: false, reason: 'unsupported' };
-    }
-    const translator = getContextTranslator();
-    if (!translator) return { ok: false, reason: 'unsupported' };
+    const source = await getContextModel();
+    if (!source) return { ok: false, reason: 'unsupported' };
     const { selection } = ctx;
     try {
       const entry = await lookupInContext(
-        translator,
+        source,
         {
           text: word,
           before: selection?.before ?? '',
@@ -93,7 +122,7 @@ export const contextProvider: DictionaryProvider = {
       // the container belongs to the next lookup.
       if (ctx.signal.aborted) return { ok: false, reason: 'error', message: 'aborted' };
       renderEntry(ctx.container, word, entry);
-      return { ok: true, headword: entry.headword || word, sourceLabel: translator.name };
+      return { ok: true, headword: entry.headword || word, sourceLabel: source.name };
     } catch (err) {
       if (ctx.signal.aborted) return { ok: false, reason: 'error', message: 'aborted' };
       // Unlike a dictionary miss, a failed AI request (bad key, quota, model
@@ -106,7 +135,7 @@ export const contextProvider: DictionaryProvider = {
           message: err instanceof Error ? err.message : String(err),
         }),
       );
-      return { ok: true, headword: word, sourceLabel: translator.name };
+      return { ok: true, headword: word, sourceLabel: source.name };
     }
   },
 };

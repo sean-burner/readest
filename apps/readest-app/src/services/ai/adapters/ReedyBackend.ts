@@ -238,6 +238,9 @@ function embeddingModelIdFor(settings: AISettings): string {
       return settings.aiGatewayEmbeddingModel || 'openai/text-embedding-3-small';
     case 'openrouter':
       return settings.openrouterEmbeddingModel || 'openai/text-embedding-3-small';
+    case 'anthropic':
+      // Claude has no embedding model; getEmbeddingModel() throws before this id is used.
+      return 'none';
   }
 }
 

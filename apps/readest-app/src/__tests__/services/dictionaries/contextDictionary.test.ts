@@ -12,11 +12,12 @@ import {
   buildSelectionContext,
   lookupInContext,
   parseContextEntry,
+  translatorContextModel,
   __clearContextCacheForTests,
 } from '@/services/dictionaries/contextDictionary';
 import type { CustomTranslator } from '@/types/translation';
 
-const translator: CustomTranslator = {
+const llm: CustomTranslator = {
   id: 'llm',
   type: 'openai-compatible',
   name: 'My LLM',
@@ -26,6 +27,7 @@ const translator: CustomTranslator = {
   addedAt: 1,
   updatedAt: 1,
 };
+const translator = translatorContextModel(llm);
 
 const entryJson = JSON.stringify({
   headword: 'bank',

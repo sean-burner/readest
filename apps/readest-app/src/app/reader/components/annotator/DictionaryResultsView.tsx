@@ -11,6 +11,7 @@ import { useThemeStore } from '@/store/themeStore';
 import { convertBlobUrlToDataUrl } from '@/libs/document';
 import ModalPortal from '@/components/ModalPortal';
 import ImageViewer from '@/app/reader/components/ImageViewer';
+import ClaudeWordChat from './ClaudeWordChat';
 import { useCustomDictionaryStore } from '@/store/customDictionaryStore';
 import { getEnabledProviders } from '@/services/dictionaries/registry';
 import { buildLookupCandidates } from '@/services/dictionaries/lookupCandidates';
@@ -61,6 +62,9 @@ export interface UseDictionaryResultsArgs {
 
 export interface DictionaryResultsState {
   currentWord: string;
+  lang?: string;
+  /** The selection being looked up, for the Claude follow-up chat. */
+  selection?: DictionarySelectionContext;
   canGoBack: boolean;
   goBack: () => void;
   visibleDefinitionProviders: DictionaryProvider[];
@@ -435,6 +439,8 @@ export function useDictionaryResults({
 
   return {
     currentWord,
+    lang,
+    selection: currentSelection,
     canGoBack,
     goBack,
     visibleDefinitionProviders,
@@ -533,6 +539,9 @@ export const DictionaryResultsHeader: React.FC<DictionaryResultsHeaderProps> = (
 interface DictionaryResultsBodyProps extends DictionaryResultsState {}
 
 export const DictionaryResultsBody: React.FC<DictionaryResultsBodyProps> = ({
+  currentWord,
+  lang,
+  selection,
   visibleDefinitionProviders,
   webSearchProviders,
   webSearchFirst,
@@ -675,6 +684,9 @@ export const DictionaryResultsBody: React.FC<DictionaryResultsBodyProps> = ({
             {definitionsSection}
             {webSearchSection}
           </>
+        )}
+        {!noProvidersAtAll && (
+          <ClaudeWordChat word={currentWord} lang={lang} selection={selection} />
         )}
       </div>
       {zoomedImageSrc && (
