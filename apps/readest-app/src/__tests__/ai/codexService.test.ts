@@ -36,7 +36,8 @@ import { DEFAULT_AI_SETTINGS } from '@/services/ai/constants';
 const makeBook = (texts: string[]): BookDoc =>
   ({
     metadata: { title: 'T' },
-    toc: texts.map((_, i) => ({ id: i, label: `Chapter ${i + 1}`, href: `c${i}` })),
+    // TOC ids are not section indexes; entries map to sections by href.
+    toc: texts.map((_, i) => ({ id: i + 7, label: `Chapter ${i + 1}`, href: `s${i}#top` })),
     sections: texts.map((text, i) => ({
       id: `s${i}`,
       cfi: '',
@@ -84,6 +85,18 @@ describe('collectNewText', () => {
       { sectionIndex: 1, sectionFraction: 0, bookFraction: 0.5 },
     );
     expect(segs.map((s) => s.sectionIndex)).toEqual([0]);
+  });
+});
+
+describe('getSectionLabel', () => {
+  test('labels sections by TOC href and carries labels forward', async () => {
+    const { getSectionLabel } = await import('@/services/ai/codex/codexService');
+    const book = makeBook(['a', 'b', 'c']);
+    (book as unknown as { toc: unknown[] }).toc = [
+      { id: 0, label: 'Intro', href: 's0' },
+      { id: 1, label: 'Part Two', href: 's2#x' },
+    ];
+    expect([0, 1, 2].map((i) => getSectionLabel(book, i))).toEqual(['Intro', 'Intro', 'Part Two']);
   });
 });
 
@@ -156,6 +169,28 @@ describe('mergeCodexUpdates', () => {
       updatedFraction: 0.4,
     });
     expect(merged[1]).toMatchObject({ name: 'The Guild', kind: 'group', firstSeen: 'Chapter 4' });
+  });
+
+  test("prefers the model's chapter for where a new entry first appears", () => {
+    const merged = mergeCodexUpdates(
+      [],
+      [
+        {
+          id: null,
+          name: 'Alice',
+          kind: 'character',
+          aliases: [],
+          summary: 'A girl.',
+          chapter: 'chapter 1',
+        },
+      ],
+      [
+        { label: 'About', text: 'Alice is a classic.'.repeat(80) },
+        { label: 'Chapter 1', text: 'Alice was beginning to get very tired.' },
+      ],
+      0.1,
+    );
+    expect(merged[0]!.firstSeen).toBe('Chapter 1');
   });
 
   test('matches an update by alias', () => {

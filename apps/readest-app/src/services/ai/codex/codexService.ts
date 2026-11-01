@@ -38,16 +38,38 @@ export interface ReadingTarget {
   bookFraction: number;
 }
 
-export const getSectionLabel = (toc: TOCItem[] | undefined, sectionIndex: number): string => {
-  let label = '';
-  const walk = (items: TOCItem[] | undefined) => {
-    for (const item of items ?? []) {
-      if (item.id <= sectionIndex && item.label) label = item.label.trim();
-      walk(item.subitems);
+const sectionLabelCache = new WeakMap<BookDoc, string[]>();
+
+/**
+ * The chapter title for a section: the last table-of-contents entry that
+ * points into this section or an earlier one. TOC entries are matched to
+ * sections by href, since their ids are not section indexes.
+ */
+export const getSectionLabel = (bookDoc: BookDoc, sectionIndex: number): string => {
+  let labels = sectionLabelCache.get(bookDoc);
+  if (!labels) {
+    const sections = bookDoc.sections ?? [];
+    const firstLabel: string[] = [];
+    const walk = (items: TOCItem[] | undefined) => {
+      for (const item of items ?? []) {
+        const target = bookDoc.splitTOCHref?.(item.href)?.[0] ?? item.href?.split('#')[0];
+        const index = sections.findIndex((s) => s.id === target || (!!s.href && s.href === target));
+        if (index >= 0 && item.label && firstLabel[index] === undefined) {
+          firstLabel[index] = item.label.trim();
+        }
+        walk(item.subitems);
+      }
+    };
+    walk(bookDoc.toc);
+    labels = [];
+    let current = '';
+    for (let i = 0; i < sections.length; i++) {
+      current = firstLabel[i] ?? current;
+      labels.push(current);
     }
-  };
-  walk(toc);
-  return label || `Section ${sectionIndex + 1}`;
+    sectionLabelCache.set(bookDoc, labels);
+  }
+  return labels[sectionIndex] || `Section ${sectionIndex + 1}`;
 };
 
 const normalizeText = (text: string) =>
@@ -140,7 +162,7 @@ export const collectNewText = async (
     if (end <= start) continue;
     segments.push({
       sectionIndex: i,
-      label: getSectionLabel(bookDoc.toc, i),
+      label: getSectionLabel(bookDoc, i),
       start,
       end,
       text: text.slice(start, end),
@@ -193,6 +215,7 @@ const updateSchema = z.object({
       kind: z.string(),
       aliases: z.array(z.string()).optional().default([]),
       summary: z.string().min(1),
+      chapter: z.string().optional().nullable(),
     }),
   ),
 });
@@ -210,10 +233,11 @@ Rules:
 - A summary is 1 to 4 plain sentences on who or what this is and what has happened with it so far. For a character, say their role and relationships.
 - kind is one of: ${CODEX_KINDS.join(', ')}.
 - aliases are other names or titles the text uses for the same entry.
+- For a new entry, chapter is the ## heading of the section where it is first introduced in the story (not a title page or blurb).
 - Write in the language of the book.
 
 Reply with JSON only, no prose and no code fences:
-{"entries":[{"id":"existing id or null","name":"...","kind":"character","aliases":["..."],"summary":"..."}]}
+{"entries":[{"id":"existing id or null","name":"...","kind":"character","aliases":["..."],"summary":"...","chapter":"..."}]}
 If nothing needs adding or changing, reply {"entries":[]}.`;
 
 export const buildCodexUserPrompt = (entries: CodexEntry[], batch: TextSegment[]) => {
@@ -254,12 +278,18 @@ const newId = () =>
 
 const sameName = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase();
 
+/** Shorter sections are front matter (title page, contents), not where an entry is introduced. */
+const MIN_STORY_SECTION_CHARS = 1000;
+
 const findFirstSeen = (batch: Pick<TextSegment, 'label' | 'text'>[], names: string[]) => {
   const lowered = names.map((n) => n.toLowerCase());
-  const hit = batch.find((s) => {
+  const mentions = (s: Pick<TextSegment, 'text'>) => {
     const text = s.text.toLowerCase();
     return lowered.some((n) => text.includes(n));
-  });
+  };
+  const hit =
+    batch.find((s) => s.text.length >= MIN_STORY_SECTION_CHARS && mentions(s)) ??
+    batch.find(mentions);
   return (hit ?? batch[0])?.label ?? '';
 };
 
@@ -301,7 +331,9 @@ export const mergeCodexUpdates = (
         kind: toKind(u.kind),
         aliases: aliases.filter((a) => !sameName(a, name)),
         summary: u.summary.trim(),
-        firstSeen: findFirstSeen(batch, [name, ...aliases]),
+        firstSeen:
+          batch.find((seg) => u.chapter && sameName(seg.label, u.chapter))?.label ??
+          findFirstSeen(batch, [name, ...aliases]),
         updatedAt: now,
         updatedFraction: fraction,
       });
