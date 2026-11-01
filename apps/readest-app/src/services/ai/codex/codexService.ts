@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 import type { BookDoc, TOCItem } from '@/libs/document';
 import { getAIProvider } from '../providers';
+import { DEFAULT_ANTHROPIC_NOTES_MODEL } from '../constants';
 import { extractTextFromDocument } from '../utils/chunker';
 import type { AISettings } from '../types';
 import { codexStore } from './codexStore';
@@ -309,6 +310,12 @@ export const mergeCodexUpdates = (
   return result;
 };
 
+/** Book Notes use their own, cheaper Claude model; other providers use their chat model. */
+export const getNotesSettings = (settings: AISettings): AISettings =>
+  settings.provider === 'anthropic'
+    ? { ...settings, anthropicModel: settings.anthropicNotesModel || DEFAULT_ANTHROPIC_NOTES_MODEL }
+    : settings;
+
 export interface CodexProgress {
   batch: number;
   totalBatches: number;
@@ -350,7 +357,7 @@ export const updateCodex = async (opts: UpdateCodexOptions): Promise<BookCodex> 
   const total = segments.reduce((n, s) => n + s.text.length, 0);
   if (total === 0 || total < (opts.minChars ?? 0)) return codex;
 
-  const model = getAIProvider(settings).getModel();
+  const model = getAIProvider(getNotesSettings(settings)).getModel();
   const system = buildCodexSystemPrompt(opts.bookTitle, opts.authorName);
   const batches = batchSegments(segments);
 

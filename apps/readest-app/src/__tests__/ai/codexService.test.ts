@@ -238,3 +238,20 @@ describe('updateCodex', () => {
     expect(mocks.generateText).not.toHaveBeenCalled();
   });
 });
+
+describe('getNotesSettings', () => {
+  test('uses Sonnet for Claude notes unless another notes model is set', async () => {
+    const { getNotesSettings } = await import('@/services/ai/codex/codexService');
+    const base = {
+      ...DEFAULT_AI_SETTINGS,
+      provider: 'anthropic' as const,
+      anthropicModel: 'claude-opus-5-5',
+    };
+    expect(getNotesSettings(base).anthropicModel).toBe('claude-sonnet-5-5');
+    expect(
+      getNotesSettings({ ...base, anthropicNotesModel: 'claude-haiku-5-5' }).anthropicModel,
+    ).toBe('claude-haiku-5-5');
+    const ollama = { ...DEFAULT_AI_SETTINGS, provider: 'ollama' as const };
+    expect(getNotesSettings(ollama)).toBe(ollama);
+  });
+});

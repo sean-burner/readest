@@ -12,6 +12,7 @@ import {
 } from '@/services/ai/providers/OpenRouterProvider';
 import {
   ANTHROPIC_MODELS,
+  DEFAULT_ANTHROPIC_NOTES_MODEL,
   DEFAULT_ANTHROPIC_MODEL,
 } from '@/services/ai/providers/AnthropicProvider';
 import { DEFAULT_AI_SETTINGS, GATEWAY_MODELS, MODEL_PRICING } from '@/services/ai/constants';
@@ -106,6 +107,9 @@ const AIPanel: React.FC = () => {
 
   // ---- Claude (Anthropic) state ----
   const [anthropicKey, setAnthropicKey] = useState(aiSettings.anthropicApiKey ?? '');
+  const [anthropicNotesModel, setAnthropicNotesModel] = useState(
+    aiSettings.anthropicNotesModel || DEFAULT_ANTHROPIC_NOTES_MODEL,
+  );
   const [anthropicModel, setAnthropicModel] = useState(
     aiSettings.anthropicModel || DEFAULT_ANTHROPIC_MODEL,
   );
@@ -314,6 +318,14 @@ const AIPanel: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [anthropicModel]);
+
+  useEffect(() => {
+    if (!isMounted.current) return;
+    if (anthropicNotesModel !== (aiSettings.anthropicNotesModel ?? '')) {
+      saveAiSetting('anthropicNotesModel', anthropicNotesModel);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [anthropicNotesModel]);
 
   // Get the effective model ID to use (either selected or custom)
   const getEffectiveModelId = useCallback(() => {
@@ -689,6 +701,18 @@ const AIPanel: React.FC = () => {
                 <option key={m} value={m} />
               ))}
             </datalist>
+          </div>
+          <div className='flex flex-col gap-2 py-3 pe-4'>
+            <SettingLabel>{_('Book Notes Model')}</SettingLabel>
+            <input
+              type='text'
+              className='input input-sm w-full'
+              list='anthropic-models'
+              value={anthropicNotesModel}
+              onChange={(e) => setAnthropicNotesModel(e.target.value)}
+              placeholder={DEFAULT_ANTHROPIC_NOTES_MODEL}
+              disabled={!enabled}
+            />
           </div>
         </BoxedList>
       )}

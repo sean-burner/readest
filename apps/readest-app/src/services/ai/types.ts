@@ -37,6 +37,8 @@ export interface AISettings {
   // Claude through the Anthropic API with the user's own key.
   anthropicApiKey?: string;
   anthropicModel?: string;
+  /** Model for Book Notes, which send whole chapters (defaults to Sonnet). */
+  anthropicNotesModel?: string;
 
   /** Build the Book Notes (characters, places, concepts) automatically after each chapter. */
   codexAutoUpdate?: boolean;
