@@ -8,6 +8,8 @@ import { getAIFetch } from '../utils/httpFetch';
 
 export const DEFAULT_ANTHROPIC_MODEL = 'claude-opus-5-5';
 
+export { DEFAULT_ANTHROPIC_NOTES_MODEL } from '../constants';
+
 /** Models offered in settings; any other model id can be typed in. */
 export const ANTHROPIC_MODELS = ['claude-opus-5-5', 'claude-sonnet-5-5', 'claude-haiku-5-5'];
 

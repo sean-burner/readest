@@ -35,9 +35,13 @@ export const DEFAULT_AI_SETTINGS: AISettings = {
   openrouterEmbeddingModel: '',
 
   anthropicModel: 'claude-opus-5-5',
+  codexAutoUpdate: true,
 
   spoilerProtection: true,
   maxContextChunks: 10,
   indexingMode: 'on-demand',
   reedy: { enabled: false },
 };
+
+/** Book Notes read whole chapters, so they default to a cheaper model than chat. */
+export const DEFAULT_ANTHROPIC_NOTES_MODEL = 'claude-sonnet-5-5';
