@@ -1,4 +1,5 @@
 import { embed, embedMany } from 'ai';
+import { DEFAULT_ANTHROPIC_MODEL } from '@/services/ai/providers/AnthropicProvider';
 import { getAIProvider } from '@/services/ai/providers';
 import type { AISettings } from '@/services/ai/types';
 import type { ChatModel } from './ChatModel';
@@ -64,7 +65,7 @@ const CONTEXT_WINDOW_TABLE: Array<{
   },
   // Anthropic
   {
-    match: (id) => id.includes('claude-opus') || id.includes('claude-sonnet'),
+    match: (id) => id.includes('claude-'),
     contextWindow: 200_000,
     reservedOutput: 8_192,
     supportsTools: true,
@@ -120,6 +121,8 @@ function chatModelIdFor(settings: AISettings): string {
       );
     case 'openrouter':
       return settings.openrouterModel || 'openai/gpt-4o-mini';
+    case 'anthropic':
+      return settings.anthropicModel || DEFAULT_ANTHROPIC_MODEL;
   }
 }
 
@@ -173,5 +176,8 @@ function embeddingModelIdFor(settings: AISettings): string {
       return settings.aiGatewayEmbeddingModel || 'openai/text-embedding-3-small';
     case 'openrouter':
       return settings.openrouterEmbeddingModel || 'openai/text-embedding-3-small';
+    case 'anthropic':
+      // Claude has no embedding model; getEmbeddingModel() throws before this id is used.
+      return 'none';
   }
 }

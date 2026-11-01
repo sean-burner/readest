@@ -34,6 +34,8 @@ export const DEFAULT_AI_SETTINGS: AISettings = {
   openrouterModel: '',
   openrouterEmbeddingModel: '',
 
+  anthropicModel: 'claude-opus-5-5',
+
   spoilerProtection: true,
   maxContextChunks: 10,
   indexingMode: 'on-demand',
