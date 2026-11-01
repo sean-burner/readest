@@ -2593,5 +2593,9 @@
   "Show Two Pages": "Hiện hai trang",
   "Book Data": "Dữ liệu sách",
   "Downloaded read-aloud audio and translations": "Âm thanh đọc to đã tải xuống và bản dịch",
-  "Link a Reader": "Liên kết máy đọc sách"
+  "Link a Reader": "Liên kết máy đọc sách",
+  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
+  "Export audiobook": "__STRING_NOT_TRANSLATED__",
+  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
+  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
 }

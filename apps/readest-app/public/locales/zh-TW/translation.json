@@ -2593,5 +2593,9 @@
   "Show Two Pages": "顯示雙頁",
   "Book Data": "書籍資料",
   "Downloaded read-aloud audio and translations": "已下載的朗讀音訊與翻譯",
-  "Link a Reader": "連結閱讀器"
+  "Link a Reader": "連結閱讀器",
+  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
+  "Export audiobook": "__STRING_NOT_TRANSLATED__",
+  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
+  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
 }

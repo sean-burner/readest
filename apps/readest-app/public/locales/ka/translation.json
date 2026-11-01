@@ -2662,5 +2662,9 @@
   "Show Two Pages": "ორი გვერდის ჩვენება",
   "Book Data": "წიგნის მონაცემები",
   "Downloaded read-aloud audio and translations": "ჩამოტვირთული ხმამაღლა კითხვის აუდიო და თარგმანები",
-  "Link a Reader": "მკითხველის დაკავშირება"
+  "Link a Reader": "მკითხველის დაკავშირება",
+  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
+  "Export audiobook": "__STRING_NOT_TRANSLATED__",
+  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
+  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
 }

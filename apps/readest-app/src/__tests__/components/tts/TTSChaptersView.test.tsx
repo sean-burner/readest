@@ -61,6 +61,8 @@ const makeDownloads = (overrides: Partial<UseTTSDownloadsResult> = {}): UseTTSDo
   clearDownloads: vi.fn().mockResolvedValue(undefined),
   statusOf: vi.fn().mockReturnValue('none'),
   refresh: vi.fn().mockResolvedValue(undefined),
+  exportAudiobook: vi.fn().mockResolvedValue(undefined),
+  exportProgress: null,
   ...overrides,
 });
 
@@ -144,6 +146,28 @@ describe('TTSChaptersView', () => {
     render(<TTSChaptersView downloads={downloads} activeSectionIndex={null} isEink={false} />);
     const button = screen.getByText('Download all') as HTMLButtonElement;
     expect(button.disabled).toBe(true);
+  });
+
+  test('offers the audiobook export only once every chapter is downloaded', () => {
+    const partial = makeDownloads();
+    render(<TTSChaptersView downloads={partial} activeSectionIndex={null} isEink={false} />);
+    expect(screen.queryByText('Export audiobook')).toBeNull();
+    cleanup();
+
+    const downloads = makeDownloads({ statusOf: vi.fn().mockReturnValue('complete') });
+    render(<TTSChaptersView downloads={downloads} activeSectionIndex={null} isEink={false} />);
+    fireEvent.click(screen.getByText('Export audiobook'));
+    expect(downloads.exportAudiobook).toHaveBeenCalledTimes(1);
+  });
+
+  test('shows export progress in place of the export action', () => {
+    const downloads = makeDownloads({
+      statusOf: vi.fn().mockReturnValue('complete'),
+      exportProgress: { chapter: 1, total: 3 },
+    });
+    render(<TTSChaptersView downloads={downloads} activeSectionIndex={null} isEink={false} />);
+    expect(screen.getByText('Exporting 1 of 3')).toBeTruthy();
+    expect(screen.queryByText('Export audiobook')).toBeNull();
   });
 
   test('clear downloads removes all explicitly downloaded chapters at once', () => {

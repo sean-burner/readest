@@ -2938,5 +2938,9 @@
   "Show Two Pages": "عرض صفحتين",
   "Book Data": "بيانات الكتاب",
   "Downloaded read-aloud audio and translations": "صوت القراءة بصوت عالٍ الذي تم تنزيله والترجمات",
-  "Link a Reader": "ربط قارئ"
+  "Link a Reader": "ربط قارئ",
+  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
+  "Export audiobook": "__STRING_NOT_TRANSLATED__",
+  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
+  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
 }

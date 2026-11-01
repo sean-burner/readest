@@ -2593,5 +2593,9 @@
   "Show Two Pages": "ཤོག་ངོས་གཉིས་སྟོན།",
   "Book Data": "དཔེ་དེབ་ཀྱི་གཞི་གྲངས།",
   "Downloaded read-aloud audio and translations": "ཕབ་ལེན་བྱས་པའི་སྐད་སྒྲས་ཀློག་པའི་སྒྲ་དང་ཡིག་སྒྱུར།",
-  "Link a Reader": "ཀློག་ཆས་འབྲེལ་མཐུད།"
+  "Link a Reader": "ཀློག་ཆས་འབྲེལ་མཐུད།",
+  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
+  "Export audiobook": "__STRING_NOT_TRANSLATED__",
+  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
+  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
 }

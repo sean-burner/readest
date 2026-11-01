@@ -31,6 +31,7 @@ import { getAccessToken, isCustomTTSAllowed } from '@/utils/access';
 import { SectionTimeline, TimelineSentence } from './SectionTimeline';
 import { estimateSentenceSeconds, hydrateProvisionalDurations } from './ttsDuration';
 import { DownloadableSentence, SectionEnumerator, TTSDownloader } from './TTSDownloader';
+import type { AudiobookSource } from './audiobookExport';
 import { TTSUtils } from './TTSUtils';
 import { TTSClient } from './TTSClient';
 import { startAudioKeepAlive, stopAudioKeepAlive } from './WebAudioPlayer';
@@ -1077,6 +1078,17 @@ export class TTSController extends EventTarget {
 
   canDownload(): boolean {
     return this.#downloadClient().canDownload();
+  }
+
+  // The downloaded chapters' audio, sentence by sentence, for an export.
+  getAudiobookSource(): AudiobookSource | null {
+    const downloader = this.getTTSDownloader();
+    if (!downloader) return null;
+    const client = this.#downloadClient();
+    return {
+      sentencesOf: (section) => downloader.enumerator.enumerateSection(section),
+      audioOf: ({ lang, text }, signal) => client.sentenceAudio(lang, text, signal),
+    };
   }
 
   getTTSDownloader(): TTSDownloader | null {

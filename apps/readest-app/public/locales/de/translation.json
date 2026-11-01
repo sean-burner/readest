@@ -2662,5 +2662,9 @@
   "Show Two Pages": "Zwei Seiten anzeigen",
   "Book Data": "Buchdaten",
   "Downloaded read-aloud audio and translations": "Heruntergeladene Vorlese-Audios und Übersetzungen",
-  "Link a Reader": "Reader verknüpfen"
+  "Link a Reader": "Reader verknüpfen",
+  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
+  "Export audiobook": "__STRING_NOT_TRANSLATED__",
+  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
+  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
 }

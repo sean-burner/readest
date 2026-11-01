@@ -2662,5 +2662,9 @@
   "Show Two Pages": "Két oldal megjelenítése",
   "Book Data": "Könyvadatok",
   "Downloaded read-aloud audio and translations": "Letöltött felolvasási hang és fordítások",
-  "Link a Reader": "Olvasó összekapcsolása"
+  "Link a Reader": "Olvasó összekapcsolása",
+  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
+  "Export audiobook": "__STRING_NOT_TRANSLATED__",
+  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
+  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
 }

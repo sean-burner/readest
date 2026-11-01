@@ -2593,5 +2593,9 @@
   "Show Two Pages": "แสดงสองหน้า",
   "Book Data": "ข้อมูลหนังสือ",
   "Downloaded read-aloud audio and translations": "เสียงอ่านออกเสียงที่ดาวน์โหลดและคำแปล",
-  "Link a Reader": "เชื่อมต่อเครื่องอ่าน"
+  "Link a Reader": "เชื่อมต่อเครื่องอ่าน",
+  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
+  "Export audiobook": "__STRING_NOT_TRANSLATED__",
+  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
+  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
 }

@@ -1,5 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useBookDataStore } from '@/store/bookDataStore';
+import { useEnv } from '@/context/EnvContext';
+import { eventDispatcher } from '@/utils/event';
+import {
+  type AudiobookExportProgress,
+  exportAudiobook as runAudiobookExport,
+  safeFileName,
+} from '@/services/tts/audiobookExport';
 import { useTranslation } from '@/hooks/useTranslation';
 import type { TTSController } from '@/services/tts/TTSController';
 import {
@@ -30,6 +37,10 @@ export interface UseTTSDownloadsResult {
   clearDownloads: () => Promise<void>;
   statusOf: (chapter: DownloadChapter) => 'none' | 'partial' | 'complete';
   refresh: () => Promise<void>;
+  // Saves every chapter as a tagged MP3: into a folder on desktop, as a zip
+  // elsewhere. Progress while it runs, else null.
+  exportAudiobook: () => Promise<void>;
+  exportProgress: AudiobookExportProgress | null;
 }
 
 // Orchestrates the podcast download surface: derives chapters from the TOC,
@@ -46,6 +57,8 @@ export const useTTSDownloads = (
 ): UseTTSDownloadsResult => {
   const _ = useTranslation();
   const { getBookData } = useBookDataStore();
+  const { appService } = useEnv();
+  const [exportProgress, setExportProgress] = useState<AudiobookExportProgress | null>(null);
   const [chapters, setChapters] = useState<DownloadChapter[]>([]);
   const [statuses, setStatuses] = useState<Map<number, SectionCacheStatus>>(new Map());
   const [cacheBytes, setCacheBytes] = useState(0);
@@ -176,6 +189,59 @@ export const useTTSDownloads = (
     }
   }, [bookHash, getController, refresh]);
 
+  const exportAudiobook = useCallback(async () => {
+    const source = getController()?.getAudiobookSource();
+    if (!source || !appService || exportProgress) return;
+    const book = getBookData(bookKey)?.book;
+    const meta = { title: book?.title || _('Audiobook'), author: book?.author || '' };
+    const folderName = safeFileName(meta.title) || 'Audiobook';
+    try {
+      if (appService.isDesktopApp) {
+        // One file at a time into a folder: a whole book never sits in memory.
+        const parent = await appService.selectDirectory('write');
+        if (!parent) return;
+        const dir = `${parent}/${folderName}`;
+        await appService.createDir(dir, 'None', true);
+        await runAudiobookExport(
+          chapters,
+          source,
+          meta,
+          (name, data) => appService.writeFile(`${dir}/${name}`, 'None', data.slice().buffer),
+          setExportProgress,
+        );
+      } else {
+        const { zipSync } = await import('fflate');
+        const files: Record<string, Uint8Array> = {};
+        await runAudiobookExport(
+          chapters,
+          source,
+          meta,
+          async (name, data) => {
+            files[`${folderName}/${name}`] = data;
+          },
+          setExportProgress,
+        );
+        // MP3 is already compressed: store it as is.
+        const zip = zipSync(files, { level: 0 });
+        await appService.saveFile(`${folderName}.zip`, zip.slice().buffer, {
+          mimeType: 'application/zip',
+        });
+      }
+      eventDispatcher.dispatch('toast', { type: 'info', message: _('Audiobook exported') });
+    } catch (err) {
+      console.error('Audiobook export failed', err);
+      eventDispatcher.dispatch('toast', {
+        type: 'error',
+        message: _('Audiobook export failed: {{error}}', {
+          error: err instanceof Error ? err.message : String(err),
+        }),
+      });
+    } finally {
+      setExportProgress(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appService, bookKey, chapters, exportProgress, getController]);
+
   const statusOf = useCallback(
     (chapter: DownloadChapter) => chapterDownloadStatus(chapter, statuses),
     [statuses],
@@ -196,5 +262,7 @@ export const useTTSDownloads = (
     clearDownloads,
     statusOf,
     refresh,
+    exportAudiobook,
+    exportProgress,
   };
 };

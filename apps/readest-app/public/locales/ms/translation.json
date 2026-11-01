@@ -2593,5 +2593,9 @@
   "Show Two Pages": "Tunjukkan Dua Halaman",
   "Book Data": "Data Buku",
   "Downloaded read-aloud audio and translations": "Audio baca kuat yang dimuat turun dan terjemahan",
-  "Link a Reader": "Pautkan pembaca"
+  "Link a Reader": "Pautkan pembaca",
+  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
+  "Export audiobook": "__STRING_NOT_TRANSLATED__",
+  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
+  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
 }

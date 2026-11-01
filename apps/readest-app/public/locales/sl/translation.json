@@ -2800,5 +2800,9 @@
   "Show Two Pages": "Pokaži dve strani",
   "Book Data": "Podatki knjige",
   "Downloaded read-aloud audio and translations": "Prenesen zvok branja na glas in prevodi",
-  "Link a Reader": "Poveži bralnik"
+  "Link a Reader": "Poveži bralnik",
+  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
+  "Export audiobook": "__STRING_NOT_TRANSLATED__",
+  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
+  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
 }

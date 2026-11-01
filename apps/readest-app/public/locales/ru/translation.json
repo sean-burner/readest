@@ -2800,5 +2800,9 @@
   "Show Two Pages": "Показать две страницы",
   "Book Data": "Данные книги",
   "Downloaded read-aloud audio and translations": "Загруженное аудио чтения вслух и переводы",
-  "Link a Reader": "Привязать устройство для чтения"
+  "Link a Reader": "Привязать устройство для чтения",
+  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
+  "Export audiobook": "__STRING_NOT_TRANSLATED__",
+  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
+  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
 }

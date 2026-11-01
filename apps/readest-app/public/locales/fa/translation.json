@@ -2662,5 +2662,9 @@
   "Show Two Pages": "نمایش دو صفحه",
   "Book Data": "داده‌های کتاب",
   "Downloaded read-aloud audio and translations": "صدای بلندخوانی دانلودشده و ترجمه‌ها",
-  "Link a Reader": "پیوند دادن کتاب‌خوان"
+  "Link a Reader": "پیوند دادن کتاب‌خوان",
+  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
+  "Export audiobook": "__STRING_NOT_TRANSLATED__",
+  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
+  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
 }

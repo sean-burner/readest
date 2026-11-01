@@ -2662,5 +2662,9 @@
   "Show Two Pages": "Ikki sahifani ko‘rsatish",
   "Book Data": "Kitob maʼlumotlari",
   "Downloaded read-aloud audio and translations": "Yuklab olingan ovozli o‘qish audiosi va tarjimalar",
-  "Link a Reader": "O‘quvchi qurilmani ulash"
+  "Link a Reader": "O‘quvchi qurilmani ulash",
+  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
+  "Export audiobook": "__STRING_NOT_TRANSLATED__",
+  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
+  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
 }

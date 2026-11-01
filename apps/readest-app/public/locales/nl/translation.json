@@ -2662,5 +2662,9 @@
   "Show Two Pages": "Twee pagina's tonen",
   "Book Data": "Boekgegevens",
   "Downloaded read-aloud audio and translations": "Gedownloade voorleesaudio en vertalingen",
-  "Link a Reader": "Een e-reader koppelen"
+  "Link a Reader": "Een e-reader koppelen",
+  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
+  "Export audiobook": "__STRING_NOT_TRANSLATED__",
+  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
+  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
 }

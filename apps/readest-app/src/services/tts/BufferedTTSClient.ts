@@ -855,6 +855,15 @@ export class BufferedTTSClient implements TTSClient {
     return true;
   }
 
+  // Audiobook export: one sentence's audio, keyed and voiced as warmSentence
+  // does, so a downloaded chapter reads straight from the cache.
+  async sentenceAudio(lang: string, text: string, signal: AbortSignal): Promise<ArrayBuffer> {
+    const voiceId = await this.getVoiceIdFromLang(lang);
+    const result = await this.#synthesizeWithRetry(lang, text, voiceId, signal);
+    if (!result) throw new DOMException('Aborted', 'AbortError');
+    return result.data;
+  }
+
   async beginDownloadSections(sections: number[]): Promise<void> {
     if (this.provider instanceof CachingProvider) {
       await this.provider.beginDownloadSections(sections);
