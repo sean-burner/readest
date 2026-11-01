@@ -2594,10 +2594,10 @@
   "Book Data": "Data Buku",
   "Downloaded read-aloud audio and translations": "Audio baca kuat yang dimuat turun dan terjemahan",
   "Link a Reader": "Pautkan pembaca",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "Pilihan, ID suara",
+  "No voices found. Check the API key.": "Tiada suara ditemui. Semak kunci API.",
+  "Exporting {{done}} of {{total}}": "Mengeksport {{done}} daripada {{total}}",
+  "Export audiobook": "Eksport buku audio",
+  "Audiobook exported": "Buku audio dieksport",
+  "Audiobook export failed: {{error}}": "Gagal mengeksport buku audio: {{error}}"
 }

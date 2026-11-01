@@ -2594,10 +2594,10 @@
   "Book Data": "書籍データ",
   "Downloaded read-aloud audio and translations": "ダウンロードした読み上げ音声と翻訳",
   "Link a Reader": "リーダーをリンク",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "任意、音声 ID",
+  "No voices found. Check the API key.": "音声が見つかりません。API キーを確認してください。",
+  "Exporting {{done}} of {{total}}": "{{total}} 件中 {{done}} 件をエクスポート中",
+  "Export audiobook": "オーディオブックをエクスポート",
+  "Audiobook exported": "オーディオブックをエクスポートしました",
+  "Audiobook export failed: {{error}}": "オーディオブックのエクスポートに失敗しました: {{error}}"
 }

@@ -2732,10 +2732,10 @@
   "Book Data": "Données du livre",
   "Downloaded read-aloud audio and translations": "Audio de lecture à voix haute téléchargé et traductions",
   "Link a Reader": "Associer une liseuse",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "Facultatif, ID de voix",
+  "No voices found. Check the API key.": "Aucune voix trouvée. Vérifiez la clé API.",
+  "Exporting {{done}} of {{total}}": "Exportation {{done}} sur {{total}}",
+  "Export audiobook": "Exporter le livre audio",
+  "Audiobook exported": "Livre audio exporté",
+  "Audiobook export failed: {{error}}": "Échec de l'exportation du livre audio : {{error}}"
 }

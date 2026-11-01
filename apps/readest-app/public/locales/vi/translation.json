@@ -2594,10 +2594,10 @@
   "Book Data": "Dữ liệu sách",
   "Downloaded read-aloud audio and translations": "Âm thanh đọc to đã tải xuống và bản dịch",
   "Link a Reader": "Liên kết máy đọc sách",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "Tùy chọn, ID giọng nói",
+  "No voices found. Check the API key.": "Không tìm thấy giọng nói. Hãy kiểm tra khóa API.",
+  "Exporting {{done}} of {{total}}": "Đang xuất {{done}} / {{total}}",
+  "Export audiobook": "Xuất sách nói",
+  "Audiobook exported": "Đã xuất sách nói",
+  "Audiobook export failed: {{error}}": "Xuất sách nói thất bại: {{error}}"
 }

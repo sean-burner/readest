@@ -2,12 +2,11 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import { streamText, type ModelMessage } from 'ai';
+import type { ModelMessage } from 'ai';
 
 import { useTranslation } from '@/hooks/useTranslation';
 import { useSettingsStore } from '@/store/settingsStore';
-import { getAIProvider } from '@/services/ai/providers';
-import { isClaudeConfigured } from '@/services/ai/providers/AnthropicProvider';
+import { isClaudeConfigured } from '@/services/ai/claude';
 import { generateAnimationScript } from '@/services/ai/animation';
 import type { DictionarySelectionContext } from '@/services/dictionaries/types';
 import ClaudeAnimation from './ClaudeAnimation';
@@ -82,6 +81,11 @@ const ClaudeWordChat: React.FC<ClaudeWordChatProps> = ({ word, lang, selection }
     const controller = new AbortController();
     abortRef.current = controller;
     try {
+      // The AI SDK loads on first use so the lookup popup stays light.
+      const [{ streamText }, { getAIProvider }] = await Promise.all([
+        import('ai'),
+        import('@/services/ai/providers'),
+      ]);
       const result = streamText({
         model: getAIProvider(aiSettings).getModel(),
         system: buildWordChatSystemPrompt(word, selection, lang),
@@ -112,6 +116,7 @@ const ClaudeWordChat: React.FC<ClaudeWordChatProps> = ({ word, lang, selection }
     const controller = new AbortController();
     abortRef.current = controller;
     try {
+      const { getAIProvider } = await import('@/services/ai/providers');
       setAnimation(
         await generateAnimationScript({
           model: getAIProvider(aiSettings).getModel(),

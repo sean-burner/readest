@@ -1,8 +1,6 @@
-import { generateText } from 'ai';
 import { z } from 'zod';
 
 import type { BookDoc, TOCItem } from '@/libs/document';
-import { getAIProvider } from '../providers';
 import { DEFAULT_ANTHROPIC_NOTES_MODEL } from '../constants';
 import { extractTextFromDocument } from '../utils/chunker';
 import type { AISettings } from '../types';
@@ -389,6 +387,11 @@ export const updateCodex = async (opts: UpdateCodexOptions): Promise<BookCodex> 
   const total = segments.reduce((n, s) => n + s.text.length, 0);
   if (total === 0 || total < (opts.minChars ?? 0)) return codex;
 
+  // The AI SDK loads on first use; the notes hook runs in every reader.
+  const [{ generateText }, { getAIProvider }] = await Promise.all([
+    import('ai'),
+    import('../providers'),
+  ]);
   const model = getAIProvider(getNotesSettings(settings)).getModel();
   const system = buildCodexSystemPrompt(opts.bookTitle, opts.authorName);
   const batches = batchSegments(segments);

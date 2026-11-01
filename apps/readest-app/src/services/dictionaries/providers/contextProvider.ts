@@ -13,8 +13,7 @@ import { getTargetLang } from '@/utils/misc';
 import { getLLMTranslators } from '@/store/customTranslatorStore';
 import { useCustomDictionaryStore } from '@/store/customDictionaryStore';
 import { useSettingsStore } from '@/store/settingsStore';
-import { getAIProvider } from '@/services/ai/providers';
-import { isClaudeConfigured } from '@/services/ai/providers/AnthropicProvider';
+import { isClaudeConfigured } from '@/services/ai/claude';
 import type { CustomTranslator } from '@/types/translation';
 import type { DictionaryProvider } from '../types';
 import { BUILTIN_PROVIDER_IDS } from '../types';
@@ -44,7 +43,8 @@ export const getClaudeContextModel = (): ContextModel | undefined => {
     id: 'anthropic',
     name: 'Claude',
     cacheKey: JSON.stringify(['anthropic', model]),
-    getModel: async () => getAIProvider(ai).getModel(),
+    // Loaded on use: the AI SDK needs Node built-ins the dictionary path shouldn't pull in.
+    getModel: async () => (await import('@/services/ai/providers')).getAIProvider(ai).getModel(),
     // A short dictionary entry: keep thinking light so the card appears fast.
     providerOptions: { anthropic: { effort: 'low' } },
   };

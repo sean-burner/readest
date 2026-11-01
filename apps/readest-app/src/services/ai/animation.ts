@@ -6,7 +6,7 @@
  * sandboxed iframe (scripts only, opaque origin). Drawing on a canvas is what
  * lets the page record itself to a video file.
  */
-import { generateText, type LanguageModel, type ModelMessage } from 'ai';
+import type { LanguageModel, ModelMessage } from 'ai';
 
 export const ANIMATION_WIDTH = 960;
 export const ANIMATION_HEIGHT = 540;
@@ -53,6 +53,7 @@ export const generateAnimationScript = async ({
   const transcript = messages
     .map((m) => `${m.role === 'user' ? 'Reader' : 'Claude'}: ${String(m.content)}`)
     .join('\n\n');
+  const { generateText } = await import('ai');
   const { text } = await generateText({
     model,
     system: ANIMATION_SYSTEM_PROMPT,

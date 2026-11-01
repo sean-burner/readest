@@ -2594,10 +2594,10 @@
   "Book Data": "書籍資料",
   "Downloaded read-aloud audio and translations": "已下載的朗讀音訊與翻譯",
   "Link a Reader": "連結閱讀器",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "選填，語音 ID",
+  "No voices found. Check the API key.": "找不到語音。請檢查 API 金鑰。",
+  "Exporting {{done}} of {{total}}": "正在匯出 {{done}}/{{total}}",
+  "Export audiobook": "匯出有聲書",
+  "Audiobook exported": "有聲書已匯出",
+  "Audiobook export failed: {{error}}": "有聲書匯出失敗：{{error}}"
 }

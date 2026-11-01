@@ -2801,10 +2801,10 @@
   "Book Data": "Данные книги",
   "Downloaded read-aloud audio and translations": "Загруженное аудио чтения вслух и переводы",
   "Link a Reader": "Привязать устройство для чтения",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "Необязательно, ID голосов",
+  "No voices found. Check the API key.": "Голоса не найдены. Проверьте ключ API.",
+  "Exporting {{done}} of {{total}}": "Экспорт {{done}} из {{total}}",
+  "Export audiobook": "Экспортировать аудиокнигу",
+  "Audiobook exported": "Аудиокнига экспортирована",
+  "Audiobook export failed: {{error}}": "Не удалось экспортировать аудиокнигу: {{error}}"
 }

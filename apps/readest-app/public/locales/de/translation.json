@@ -2663,10 +2663,10 @@
   "Book Data": "Buchdaten",
   "Downloaded read-aloud audio and translations": "Heruntergeladene Vorlese-Audios und Übersetzungen",
   "Link a Reader": "Reader verknüpfen",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "Optional, Stimmen-IDs",
+  "No voices found. Check the API key.": "Keine Stimmen gefunden. Prüfe den API-Schlüssel.",
+  "Exporting {{done}} of {{total}}": "Exportiere {{done}} von {{total}}",
+  "Export audiobook": "Hörbuch exportieren",
+  "Audiobook exported": "Hörbuch exportiert",
+  "Audiobook export failed: {{error}}": "Hörbuch-Export fehlgeschlagen: {{error}}"
 }

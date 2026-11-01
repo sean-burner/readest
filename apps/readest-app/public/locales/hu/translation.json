@@ -2663,10 +2663,10 @@
   "Book Data": "Könyvadatok",
   "Downloaded read-aloud audio and translations": "Letöltött felolvasási hang és fordítások",
   "Link a Reader": "Olvasó összekapcsolása",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "Opcionális, hangazonosítók",
+  "No voices found. Check the API key.": "Nem található hang. Ellenőrizd az API-kulcsot.",
+  "Exporting {{done}} of {{total}}": "Exportálás: {{done}} / {{total}}",
+  "Export audiobook": "Hangoskönyv exportálása",
+  "Audiobook exported": "Hangoskönyv exportálva",
+  "Audiobook export failed: {{error}}": "A hangoskönyv exportálása sikertelen: {{error}}"
 }

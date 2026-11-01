@@ -13,9 +13,7 @@ export { DEFAULT_ANTHROPIC_NOTES_MODEL } from '../constants';
 /** Models offered in settings; any other model id can be typed in. */
 export const ANTHROPIC_MODELS = ['claude-opus-5-5', 'claude-sonnet-5-5', 'claude-haiku-5-5'];
 
-/** Whether Claude is the configured, usable AI provider. */
-export const isClaudeConfigured = (settings?: AISettings): settings is AISettings =>
-  !!settings?.enabled && settings.provider === 'anthropic' && !!settings.anthropicApiKey;
+export { isClaudeConfigured } from '../claude';
 
 /**
  * Claude through the Anthropic Messages API, with the user's own API key.

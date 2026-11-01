@@ -2663,10 +2663,10 @@
   "Book Data": "पुस्तक डेटा",
   "Downloaded read-aloud audio and translations": "डाउनलोड किया गया पढ़कर सुनाने का ऑडियो और अनुवाद",
   "Link a Reader": "रीडर लिंक करें",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "वैकल्पिक, वॉइस आईडी",
+  "No voices found. Check the API key.": "कोई वॉइस नहीं मिली। API कुंजी जाँचें।",
+  "Exporting {{done}} of {{total}}": "{{total}} में से {{done}} निर्यात हो रहे हैं",
+  "Export audiobook": "ऑडियोबुक निर्यात करें",
+  "Audiobook exported": "ऑडियोबुक निर्यात हो गई",
+  "Audiobook export failed: {{error}}": "ऑडियोबुक निर्यात विफल: {{error}}"
 }
