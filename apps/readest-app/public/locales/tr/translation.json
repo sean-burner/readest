@@ -2663,6 +2663,8 @@
   "Book Data": "Kitap Verileri",
   "Downloaded read-aloud audio and translations": "İndirilen sesli okuma kayıtları ve çeviriler",
   "Link a Reader": "Okuyucu bağla",
+  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
+  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
   "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
   "Export audiobook": "__STRING_NOT_TRANSLATED__",
   "Audiobook exported": "__STRING_NOT_TRANSLATED__",

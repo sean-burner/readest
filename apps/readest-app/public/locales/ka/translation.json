@@ -2663,6 +2663,8 @@
   "Book Data": "წიგნის მონაცემები",
   "Downloaded read-aloud audio and translations": "ჩამოტვირთული ხმამაღლა კითხვის აუდიო და თარგმანები",
   "Link a Reader": "მკითხველის დაკავშირება",
+  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
+  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
   "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
   "Export audiobook": "__STRING_NOT_TRANSLATED__",
   "Audiobook exported": "__STRING_NOT_TRANSLATED__",

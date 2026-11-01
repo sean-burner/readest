@@ -1,6 +1,6 @@
 import type { LanguageModel, EmbeddingModel } from 'ai';
 
-export type AIProviderName = 'ollama' | 'ai-gateway' | 'openrouter';
+export type AIProviderName = 'ollama' | 'ai-gateway' | 'openrouter' | 'anthropic';
 
 export interface AIProvider {
   id: AIProviderName;
@@ -33,6 +33,15 @@ export interface AISettings {
   openrouterBaseUrl?: string;
   openrouterModel?: string;
   openrouterEmbeddingModel?: string;
+
+  // Claude through the Anthropic API with the user's own key.
+  anthropicApiKey?: string;
+  anthropicModel?: string;
+  /** Model for Book Notes, which send whole chapters (defaults to Sonnet). */
+  anthropicNotesModel?: string;
+
+  /** Build the Book Notes (characters, places, concepts) automatically after each chapter. */
+  codexAutoUpdate?: boolean;
 
   spoilerProtection: boolean;
   maxContextChunks: number;

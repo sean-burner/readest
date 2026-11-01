@@ -2732,6 +2732,8 @@
   "Book Data": "Dati del libro",
   "Downloaded read-aloud audio and translations": "Audio di lettura ad alta voce scaricato e traduzioni",
   "Link a Reader": "Collega un lettore",
+  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
+  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
   "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
   "Export audiobook": "__STRING_NOT_TRANSLATED__",
   "Audiobook exported": "__STRING_NOT_TRANSLATED__",

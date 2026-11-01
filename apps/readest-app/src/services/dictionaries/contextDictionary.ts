@@ -2,10 +2,11 @@
  * AI context dictionary (#5544).
  *
  * Explains a selected word or phrase as it is used in the passage around it,
- * through one of the user's OpenAI-compatible custom translators. The prompt
+ * through Claude or one of the user's OpenAI-compatible custom translators. The prompt
  * asks for a JSON dictionary entry so the provider can render it with the
  * same typography as the other dictionary cards.
  */
+import type { LanguageModel } from 'ai';
 import type { CustomTranslator } from '@/types/translation';
 import { md5Fingerprint } from '@/utils/md5';
 import { renderPrompt } from '@/services/translators/custom/prompts';
@@ -36,6 +37,25 @@ Return only valid JSON with this shape:
   "synonyms": [{"phrase": "an alternative word or phrase", "nuance": "how it differs here"}]
 }
 Give at most 2 examples and at most 3 synonyms.`;
+
+/** The model a context lookup asks, and how its replies are cached. */
+export interface ContextModel {
+  id: string;
+  name: string;
+  /** Changes whenever the model's configuration does, so stale replies are not reused. */
+  cacheKey: string;
+  getModel: () => Promise<LanguageModel>;
+  temperature?: number;
+  providerOptions?: Parameters<typeof import('ai').generateText>[0]['providerOptions'];
+}
+
+export const translatorContextModel = (translator: CustomTranslator): ContextModel => ({
+  id: translator.id,
+  name: translator.name,
+  cacheKey: JSON.stringify([translator.id, translator.updatedAt, translator.model]),
+  getModel: () => createChatModel(translator),
+  temperature: translator.temperature,
+});
 
 export interface ContextLookupInput {
   text: string;
@@ -145,7 +165,7 @@ const cache = new Map<string, ContextEntry>();
 export const __clearContextCacheForTests = () => cache.clear();
 
 export const lookupInContext = async (
-  translator: CustomTranslator,
+  source: ContextModel,
   input: ContextLookupInput,
   signal: AbortSignal,
 ): Promise<ContextEntry> => {
@@ -160,9 +180,7 @@ export const lookupInContext = async (
     bookTitle: input.bookTitle ?? '',
     bookAuthor: input.bookAuthor ?? '',
   });
-  const key = md5Fingerprint(
-    JSON.stringify([translator.id, translator.updatedAt, translator.model, system, prompt]),
-  );
+  const key = md5Fingerprint(JSON.stringify([source.cacheKey, system, prompt]));
   const cached = cache.get(key);
   if (cached) return cached;
 
@@ -177,10 +195,11 @@ export const lookupInContext = async (
   try {
     const [{ generateText }] = await loadSDK();
     const { text } = await generateText({
-      model: await createChatModel(translator),
+      model: await source.getModel(),
       system,
       prompt,
-      temperature: translator.temperature,
+      temperature: source.temperature,
+      providerOptions: source.providerOptions,
       maxRetries: 1,
       abortSignal: controller.signal,
     });

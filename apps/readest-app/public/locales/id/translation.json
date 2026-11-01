@@ -2594,6 +2594,8 @@
   "Book Data": "Data Buku",
   "Downloaded read-aloud audio and translations": "Audio bacakan yang diunduh dan terjemahan",
   "Link a Reader": "Tautkan pembaca",
+  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
+  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
   "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
   "Export audiobook": "__STRING_NOT_TRANSLATED__",
   "Audiobook exported": "__STRING_NOT_TRANSLATED__",
