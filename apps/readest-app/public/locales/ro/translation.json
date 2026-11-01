@@ -2731,5 +2731,7 @@
   "Show Two Pages": "Afișează două pagini",
   "Book Data": "Datele cărții",
   "Downloaded read-aloud audio and translations": "Audio descărcat de citire cu voce tare și traduceri",
-  "Link a Reader": "Conectează un cititor"
+  "Link a Reader": "Conectează un cititor",
+  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
+  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__"
 }

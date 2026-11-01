@@ -2662,5 +2662,7 @@
   "Show Two Pages": "இரண்டு பக்கங்களைக் காட்டு",
   "Book Data": "புத்தகத் தரவு",
   "Downloaded read-aloud audio and translations": "பதிவிறக்கிய உரக்கப் படிக்கும் ஒலி மற்றும் மொழிபெயர்ப்புகள்",
-  "Link a Reader": "ரீடரை இணைக்கவும்"
+  "Link a Reader": "ரீடரை இணைக்கவும்",
+  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
+  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__"
 }

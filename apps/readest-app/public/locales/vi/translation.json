@@ -2593,5 +2593,7 @@
   "Show Two Pages": "Hiện hai trang",
   "Book Data": "Dữ liệu sách",
   "Downloaded read-aloud audio and translations": "Âm thanh đọc to đã tải xuống và bản dịch",
-  "Link a Reader": "Liên kết máy đọc sách"
+  "Link a Reader": "Liên kết máy đọc sách",
+  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
+  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__"
 }

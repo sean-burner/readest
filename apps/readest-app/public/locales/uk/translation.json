@@ -2800,5 +2800,7 @@
   "Show Two Pages": "Показати дві сторінки",
   "Book Data": "Дані книги",
   "Downloaded read-aloud audio and translations": "Завантажене аудіо читання вголос і переклади",
-  "Link a Reader": "Під'єднати пристрій для читання"
+  "Link a Reader": "Під'єднати пристрій для читання",
+  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
+  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__"
 }
