@@ -38,6 +38,9 @@ export interface AISettings {
   anthropicApiKey?: string;
   anthropicModel?: string;
 
+  /** Build the Book Notes (characters, places, concepts) automatically after each chapter. */
+  codexAutoUpdate?: boolean;
+
   spoilerProtection: boolean;
   maxContextChunks: number;
   indexingMode: 'on-demand' | 'background';
