@@ -162,6 +162,8 @@ const makeProps = (overrides: Record<string, unknown> = {}) => ({
     clearDownloads: vi.fn().mockResolvedValue(undefined),
     statusOf: vi.fn().mockReturnValue('none'),
     refresh: vi.fn().mockResolvedValue(undefined),
+    exportAudiobook: vi.fn().mockResolvedValue(undefined),
+    exportProgress: null,
   },
   activeSectionIndex: null as number | null,
   ...overrides,
@@ -626,6 +628,8 @@ describe('TTSPlayerSheet', () => {
     clearDownloads: vi.fn().mockResolvedValue(undefined),
     statusOf: vi.fn().mockReturnValue('complete'),
     refresh: vi.fn().mockResolvedValue(undefined),
+    exportAudiobook: vi.fn().mockResolvedValue(undefined),
+    exportProgress: null,
     ...over,
   });
 

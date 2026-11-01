@@ -2595,5 +2595,9 @@
   "Downloaded read-aloud audio and translations": "已下载的朗读音频和翻译",
   "Link a Reader": "关联阅读器",
   "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__"
+  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
+  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
+  "Export audiobook": "__STRING_NOT_TRANSLATED__",
+  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
+  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
 }

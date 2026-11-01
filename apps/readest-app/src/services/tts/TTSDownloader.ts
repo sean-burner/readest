@@ -81,6 +81,11 @@ export class TTSDownloader {
     this.#warmer = warmer;
   }
 
+  // The same enumeration the download keys its cache by (audiobook export).
+  get enumerator(): SectionEnumerator {
+    return this.#enumerator;
+  }
+
   async download(
     sectionIndexes: number[],
     onProgress?: (progress: SectionDownloadProgress) => void,

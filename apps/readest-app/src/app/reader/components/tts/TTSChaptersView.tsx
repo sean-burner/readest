@@ -37,6 +37,8 @@ const TTSChaptersView: React.FC<TTSChaptersViewProps> = ({
     cacheBytes,
     statuses,
     clearing,
+    exportAudiobook,
+    exportProgress,
   } = downloads;
 
   const completeCount = chapters.filter((c) => statusOf(c) === 'complete').length;
@@ -65,6 +67,27 @@ const TTSChaptersView: React.FC<TTSChaptersViewProps> = ({
           {cacheBytes > 0 ? ` · ${formatBytes(cacheBytes)}` : ''}
         </span>
         <div className='flex shrink-0 items-center gap-2'>
+          {exportProgress ? (
+            <span className='text-base-content/60 shrink-0 text-sm sm:text-xs'>
+              {_('Exporting {{done}} of {{total}}', {
+                done: exportProgress.chapter,
+                total: exportProgress.total,
+              })}
+            </span>
+          ) : (
+            // Every chapter downloaded: exporting reads only the cache.
+            chapters.length > 0 &&
+            !anyIncomplete && (
+              <button
+                type='button'
+                className='touch-target text-primary shrink-0 text-sm font-medium disabled:opacity-40 sm:text-xs'
+                disabled={clearing}
+                onClick={() => void exportAudiobook()}
+              >
+                {_('Export audiobook')}
+              </button>
+            )
+          )}
           {hasExplicitDownloads && (
             <button
               type='button'

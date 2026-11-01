@@ -2664,5 +2664,9 @@
   "Downloaded read-aloud audio and translations": "பதிவிறக்கிய உரக்கப் படிக்கும் ஒலி மற்றும் மொழிபெயர்ப்புகள்",
   "Link a Reader": "ரீடரை இணைக்கவும்",
   "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__"
+  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
+  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
+  "Export audiobook": "__STRING_NOT_TRANSLATED__",
+  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
+  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
 }

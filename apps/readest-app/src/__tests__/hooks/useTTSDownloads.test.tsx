@@ -12,7 +12,12 @@ const mocks = vi.hoisted(() => ({
   cancelItem: vi.fn(),
   removeBook: vi.fn(),
   getBookData: vi.fn(),
+  appService: null as unknown,
+  toast: vi.fn(),
 }));
+
+vi.mock('@/context/EnvContext', () => ({ useEnv: () => ({ appService: mocks.appService }) }));
+vi.mock('@/utils/event', () => ({ eventDispatcher: { dispatch: mocks.toast } }));
 
 vi.mock('@/services/tts/ttsDownloadManager', () => ({
   ttsDownloadManager: {
@@ -61,6 +66,41 @@ describe('useTTSDownloads', () => {
   afterEach(() => {
     cleanup();
     useTTSDownloadStore.setState({ items: {} });
+  });
+
+  test('exports each chapter as an MP3 into a folder named after the book on desktop', async () => {
+    const appService = {
+      isDesktopApp: true,
+      selectDirectory: vi.fn(async () => '/out'),
+      createDir: vi.fn(async () => {}),
+      writeFile: vi.fn(async () => {}),
+    };
+    mocks.appService = appService;
+    mocks.getBookData.mockReturnValue({
+      bookDoc: { toc: [] },
+      book: { title: 'My: Book', author: 'Ann' },
+    });
+    const controller = makeController(() => new Map());
+    Object.assign(controller, {
+      getAudiobookSource: () => ({
+        sentencesOf: async () => [{ lang: 'en', text: 'a' }],
+        audioOf: async () => new Uint8Array([0xff, 0xfb, 1, 1]).buffer,
+      }),
+    });
+    const { result } = renderHook(() => useTTSDownloads('bookhash', () => controller, false, true));
+    await waitFor(() => expect(result.current.chapters.length).toBe(1));
+
+    await act(() => result.current.exportAudiobook());
+
+    expect(appService.createDir).toHaveBeenCalledWith('/out/My Book', 'None', true);
+    expect(appService.writeFile).toHaveBeenCalledWith(
+      '/out/My Book/01 - Section {{index}}.mp3',
+      'None',
+      expect.anything(),
+    );
+    expect(mocks.toast).toHaveBeenCalledWith('toast', expect.objectContaining({ type: 'info' }));
+    expect(result.current.exportProgress).toBeNull();
+    mocks.appService = null;
   });
 
   test('awaits asynchronous PDF chapter destinations and skips rejected links', async () => {
