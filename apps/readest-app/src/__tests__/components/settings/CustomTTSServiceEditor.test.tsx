@@ -62,6 +62,30 @@ describe('CustomTTSServiceEditor', () => {
     expect(screen.queryByLabelText('Format')).toBeNull();
   });
 
+  it('switches to an ElevenLabs model and hides OpenAI-only fields for ElevenLabs', () => {
+    render(<CustomTTSServiceEditor service={service} onBack={vi.fn()} />);
+    fireEvent.change(screen.getByLabelText('Base URL'), {
+      target: { value: 'https://api.elevenlabs.io' },
+    });
+    expect((screen.getByLabelText('Model') as HTMLInputElement).value).toBe(
+      'eleven_multilingual_v2',
+    );
+    expect(screen.queryByLabelText('Format')).toBeNull();
+    expect(screen.queryByLabelText('Instructions')).toBeNull();
+  });
+
+  it('says the key failed when ElevenLabs lists no voices', async () => {
+    fetchMock.mockImplementation(async () => new Response('Unauthorized', { status: 401 }));
+    const el = {
+      ...service,
+      baseUrl: 'https://api.elevenlabs.io',
+      model: 'eleven_multilingual_v2',
+    };
+    render(<CustomTTSServiceEditor service={el} onBack={vi.fn()} />);
+    fireEvent.click(screen.getByText('Test'));
+    expect(await screen.findByText(/No voices found/)).toBeTruthy();
+  });
+
   it('names the URL it tried when the test fails', async () => {
     fetchMock.mockImplementation(async () => new Response('Not found', { status: 404 }));
     render(<CustomTTSServiceEditor service={service} onBack={vi.fn()} />);

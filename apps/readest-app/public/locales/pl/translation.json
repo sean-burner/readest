@@ -2800,5 +2800,7 @@
   "Show Two Pages": "Pokaż dwie strony",
   "Book Data": "Dane książki",
   "Downloaded read-aloud audio and translations": "Pobrane audio czytania na głos i tłumaczenia",
-  "Link a Reader": "Połącz czytnik"
+  "Link a Reader": "Połącz czytnik",
+  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
+  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__"
 }

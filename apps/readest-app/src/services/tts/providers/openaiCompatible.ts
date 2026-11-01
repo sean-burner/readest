@@ -4,8 +4,11 @@
 // with their key, straight from the device. Every configured service lives
 // behind this one provider; a voice id is `<service id>:<voice>`, so a request
 // routes to the service the picked voice belongs to. These APIs return no word
-// timings, so highlighting stays at sentence granularity.
+// timings, so highlighting stays at sentence granularity. ElevenLabs is the
+// exception: it has its own API, recognized by its host like MiMo, and returns
+// character timings that become word boundaries.
 
+import type { TTSWordBoundary } from '@/libs/edgeTTS';
 import { getAIFetch } from '@/services/ai/utils/httpFetch';
 import type { CustomTTSService } from '@/types/customTTS';
 import { MULTILINGUAL_LANG, type TTSVoice, type TTSVoicesGroup } from '../types';
@@ -53,6 +56,19 @@ export const isMiMoService = (service: Pick<CustomTTSService, 'baseUrl'>): boole
   }
 };
 
+// ElevenLabs is reached by its host (api.elevenlabs.io and its data-residency
+// hosts); its API is its own, so the path typed into the base URL is ignored.
+export const isElevenLabsService = (service: Pick<CustomTTSService, 'baseUrl'>): boolean => {
+  try {
+    return /(^|\.)elevenlabs\.io$/.test(new URL(service.baseUrl).hostname);
+  } catch {
+    return false;
+  }
+};
+
+const elevenLabsUrl = (service: CustomTTSService, path: string) =>
+  new URL(`/v1${path}`, service.baseUrl).href;
+
 // Statuses that no later request can get past (bad key, wrong URL or model).
 const FATAL_STATUSES = new Set([401, 403, 404]);
 // Statuses worth retrying; any other 4xx is about this sentence.
@@ -68,15 +84,35 @@ const endpoint = (service: CustomTTSService, path: string) =>
 export const speechEndpoint = (service: CustomTTSService) =>
   isMiMoService(service)
     ? new URL('/v1/chat/completions', service.baseUrl).href
-    : endpoint(service, '/audio/speech');
+    : isElevenLabsService(service)
+      ? elevenLabsUrl(service, '/text-to-speech')
+      : endpoint(service, '/audio/speech');
 
 const authHeaders = (service: CustomTTSService): Record<string, string> =>
-  service.apiKey ? { Authorization: `Bearer ${service.apiKey}` } : {};
+  !service.apiKey
+    ? {}
+    : isElevenLabsService(service)
+      ? { 'xi-api-key': service.apiKey }
+      : { Authorization: `Bearer ${service.apiKey}` };
 
 interface ListedVoice {
+  // What the service calls the voice when it differs from its name.
+  id?: string;
   name: string;
   lang?: string;
 }
+
+// ElevenLabs lists `{ voices: [{ voice_id, name }] }`. Its models speak every
+// language with every voice, so none is tied to one.
+const parseElevenLabsVoices = (body: unknown): ListedVoice[] => {
+  const list = (body as { voices?: unknown } | null)?.voices;
+  if (!Array.isArray(list)) return [];
+  return list.flatMap((item: unknown) => {
+    const { voice_id: id, name } = (item ?? {}) as Record<string, unknown>;
+    if (typeof id !== 'string' || !id) return [];
+    return [{ id, name: typeof name === 'string' && name ? name : id }];
+  });
+};
 
 // Kokoro names a voice by language and gender (`zf_xiaobei`: Mandarin, female).
 const KOKORO_LANGS: Record<string, string> = {
@@ -118,23 +154,34 @@ const fetchServiceVoices = async (service: CustomTTSService): Promise<ListedVoic
   const typed = service.voices?.split(',').flatMap((name) => name.trim() || []);
   if (typed?.length) return typed.map((name) => ({ name }));
   if (isMiMoService(service)) return MIMO_VOICES;
+  const isElevenLabs = isElevenLabsService(service);
   // A timer rather than AbortSignal.timeout: tauriFetch rejects unhandled when
   // a finished request is aborted.
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), VOICE_LIST_TIMEOUT_MS);
   try {
-    const res = await getAIFetch()(endpoint(service, '/audio/voices'), {
+    const url = isElevenLabs
+      ? elevenLabsUrl(service, '/voices')
+      : endpoint(service, '/audio/voices');
+    const res = await getAIFetch()(url, {
       headers: authHeaders(service),
       signal: controller.signal,
     });
-    const voices = res.ok ? parseVoiceList(await res.json()) : [];
+    const parse = isElevenLabs ? parseElevenLabsVoices : parseVoiceList;
+    const voices = res.ok ? parse(await res.json()) : [];
     if (voices.length) return voices;
   } catch {
     // Unreachable or not JSON: fall through to the standard voices.
   } finally {
     clearTimeout(timer);
   }
-  return OPENAI_TTS_VOICES.map((name) => ({ name }));
+  // ElevenLabs voices have ids, not names, so OpenAI's would not exist there.
+  return isElevenLabs ? [] : OPENAI_TTS_VOICES.map((name) => ({ name }));
+};
+
+const decodeBase64 = (data: unknown): Uint8Array<ArrayBuffer> => {
+  const binary = atob(typeof data === 'string' ? data : '');
+  return Uint8Array.from(binary, (c) => c.charCodeAt(0));
 };
 
 // MiMo chat completions wraps the generated MP3 in a Base64 audio.data field.
@@ -142,11 +189,51 @@ const decodeMiMoAudio = async (res: Response): Promise<ArrayBuffer> => {
   const body = (await res.json()) as {
     choices?: { message?: { audio?: { data?: unknown } } }[];
   };
-  const data = body.choices?.[0]?.message?.audio?.data;
-  const binary = atob(typeof data === 'string' ? data : '');
-  const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
+  const bytes = decodeBase64(body.choices?.[0]?.message?.audio?.data);
   if (!bytes.length) throw new Error('MiMo returned no audio data');
   return bytes.buffer;
+};
+
+const TICKS_PER_SECOND = 10_000_000;
+
+// ElevenLabs times every character of the text as sent; a word is a run of
+// non-space characters, from its first character's start to its last's end.
+const elevenLabsBoundaries = (alignment: unknown): TTSWordBoundary[] => {
+  const {
+    characters: chars,
+    character_start_times_seconds: starts,
+    character_end_times_seconds: ends,
+  } = (alignment ?? {}) as Record<string, unknown>;
+  if (!Array.isArray(chars) || !Array.isArray(starts) || !Array.isArray(ends)) return [];
+  const boundaries: TTSWordBoundary[] = [];
+  let word = '';
+  let first = 0;
+  const flush = (last: number) => {
+    if (!word) return;
+    const offset = Math.round(Number(starts[first]) * TICKS_PER_SECOND);
+    const end = Math.round(Number(ends[last]) * TICKS_PER_SECOND);
+    if (Number.isFinite(offset) && Number.isFinite(end)) {
+      boundaries.push({ text: word, offset, duration: Math.max(0, end - offset) });
+    }
+    word = '';
+  };
+  chars.forEach((char, i) => {
+    if (typeof char !== 'string' || !char.trim()) {
+      flush(i - 1);
+      return;
+    }
+    if (!word) first = i;
+    word += char;
+  });
+  flush(chars.length - 1);
+  return boundaries;
+};
+
+const decodeElevenLabsSpeech = async (res: Response): Promise<SpeechSynthesisResult> => {
+  const body = (await res.json()) as { audio_base64?: unknown; alignment?: unknown };
+  const bytes = decodeBase64(body.audio_base64);
+  if (!bytes.length) throw new Error('ElevenLabs returned no audio data');
+  return { audio: bytes.buffer, boundaries: elevenLabsBoundaries(body.alignment) };
 };
 
 const abortError = () => new DOMException('Aborted', 'AbortError');
@@ -202,7 +289,7 @@ export class OpenAICompatibleSpeechProvider implements SpeechProvider {
     const lists = await Promise.all(services.map(fetchServiceVoices));
     return services.flatMap((service, i) =>
       lists[i]!.map((voice) => ({
-        id: customVoiceId(service.id, voice.name),
+        id: customVoiceId(service.id, voice.id ?? voice.name),
         name: voice.name,
         lang: voiceLang(voice),
       })),
@@ -238,31 +325,37 @@ export class OpenAICompatibleSpeechProvider implements SpeechProvider {
     if (signal.aborted) throw abortError();
     const { service, voice } = resolved;
     const isMiMo = isMiMoService(service);
+    const isElevenLabs = isElevenLabsService(service);
     // Follow the caller's signal only while the request is in flight: tauriFetch
     // rejects unhandled when a finished request is aborted.
     const controller = new AbortController();
     const onAbort = () => controller.abort();
     signal.addEventListener('abort', onAbort, { once: true });
     try {
-      const body = isMiMo
-        ? {
-            model: service.model,
-            messages: [
-              ...(service.instructions ? [{ role: 'user', content: service.instructions }] : []),
-              { role: 'assistant', content: req.text },
-            ],
-            audio: { format: 'mp3', voice },
-          }
-        : {
-            model: service.model,
-            input: req.text,
-            voice,
-            ...(service.responseFormat !== 'none' && {
-              response_format: service.responseFormat ?? 'mp3',
-            }),
-            ...(service.instructions ? { instructions: service.instructions } : {}),
-          };
-      const res = await getAIFetch()(speechEndpoint(service), {
+      const body = isElevenLabs
+        ? { text: req.text, model_id: service.model }
+        : isMiMo
+          ? {
+              model: service.model,
+              messages: [
+                ...(service.instructions ? [{ role: 'user', content: service.instructions }] : []),
+                { role: 'assistant', content: req.text },
+              ],
+              audio: { format: 'mp3', voice },
+            }
+          : {
+              model: service.model,
+              input: req.text,
+              voice,
+              ...(service.responseFormat !== 'none' && {
+                response_format: service.responseFormat ?? 'mp3',
+              }),
+              ...(service.instructions ? { instructions: service.instructions } : {}),
+            };
+      const url = isElevenLabs
+        ? `${speechEndpoint(service)}/${encodeURIComponent(voice)}/with-timestamps?output_format=mp3_44100_128`
+        : speechEndpoint(service);
+      const res = await getAIFetch()(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...authHeaders(service) },
         body: JSON.stringify(body),
@@ -277,6 +370,7 @@ export class OpenAICompatibleSpeechProvider implements SpeechProvider {
         }
         throw new Error(message);
       }
+      if (isElevenLabs) return await decodeElevenLabsSpeech(res);
       const audio = isMiMo ? await decodeMiMoAudio(res) : unwrapNestedWav(await res.arrayBuffer());
       return { audio, boundaries: [] };
     } finally {

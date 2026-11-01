@@ -2662,5 +2662,7 @@
   "Show Two Pages": "Twee pagina's tonen",
   "Book Data": "Boekgegevens",
   "Downloaded read-aloud audio and translations": "Gedownloade voorleesaudio en vertalingen",
-  "Link a Reader": "Een e-reader koppelen"
+  "Link a Reader": "Een e-reader koppelen",
+  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
+  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__"
 }

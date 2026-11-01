@@ -4,6 +4,7 @@ import { useEnv } from '@/context/EnvContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useCustomTTSStore } from '@/store/customTTSStore';
 import {
+  isElevenLabsService,
   isMiMoService,
   OpenAICompatibleSpeechProvider,
   speechEndpoint,
@@ -22,9 +23,18 @@ const BASE_URL_PRESETS = [
   'https://api.openai.com/v1',
   'https://api.siliconflow.cn/v1',
   'http://127.0.0.1:8880/v1',
+  'https://api.elevenlabs.io',
 ];
 
 const MODEL_PRESETS = ['gpt-4o-mini-tts', 'tts-1', 'tts-1-hd', 'kokoro'];
+
+// Multilingual v2 first: the most natural for long-form narration.
+const ELEVENLABS_MODEL_PRESETS = [
+  'eleven_multilingual_v2',
+  'eleven_flash_v2_5',
+  'eleven_turbo_v2_5',
+  'eleven_v3',
+];
 
 type Draft = Omit<CustomTTSService, 'id' | 'addedAt' | 'updatedAt'>;
 
@@ -59,7 +69,14 @@ const CustomTTSServiceEditor: React.FC<CustomTTSServiceEditorProps> = ({ service
   const canSave = !!draft.name.trim() && !!draft.baseUrl.trim() && !!draft.model.trim();
 
   const update = (patch: Partial<Draft>) => {
-    setDraft((d) => ({ ...d, ...patch }));
+    setDraft((d) => {
+      const next = { ...d, ...patch };
+      // Switching to ElevenLabs swaps an OpenAI preset model for its own.
+      if (isElevenLabsService(next) && MODEL_PRESETS.includes(next.model)) {
+        next.model = ELEVENLABS_MODEL_PRESETS[0]!;
+      }
+      return next;
+    });
     setError('');
     setVoiceCount(null);
   };
@@ -87,6 +104,8 @@ const CustomTTSServiceEditor: React.FC<CustomTTSServiceEditorProps> = ({ service
         async () => true,
       );
       const voices = await provider.getAllVoices();
+      // ElevenLabs has no standard voices to fall back on: none means the key failed.
+      if (!voices.length) throw new Error(_('No voices found. Check the API key.'));
       const { audio } = await provider.synthesize(
         {
           lang: 'en',
@@ -130,6 +149,8 @@ const CustomTTSServiceEditor: React.FC<CustomTTSServiceEditorProps> = ({ service
   };
 
   const inputClass = 'input input-sm eink-bordered w-full';
+  const isElevenLabs = isElevenLabsService(draft);
+  const modelPresets = isElevenLabs ? ELEVENLABS_MODEL_PRESETS : MODEL_PRESETS;
 
   return (
     <div className='my-4 w-full space-y-6'>
@@ -190,10 +211,10 @@ const CustomTTSServiceEditor: React.FC<CustomTTSServiceEditorProps> = ({ service
             value={draft.model}
             onChange={(e) => update({ model: e.target.value })}
             list='custom-tts-models'
-            placeholder={MODEL_PRESETS[0]}
+            placeholder={modelPresets[0]}
           />
           <datalist id='custom-tts-models'>
-            {MODEL_PRESETS.map((model) => (
+            {modelPresets.map((model) => (
               <option key={model} value={model} />
             ))}
           </datalist>
@@ -205,20 +226,22 @@ const CustomTTSServiceEditor: React.FC<CustomTTSServiceEditorProps> = ({ service
             className={inputClass}
             value={draft.voices ?? ''}
             onChange={(e) => update({ voices: e.target.value })}
-            placeholder='Kore, Puck, Zephyr'
+            placeholder={isElevenLabs ? _('Optional, voice IDs') : 'Kore, Puck, Zephyr'}
           />
         </Field>
-        <Field id='tts-instructions' label={_('Instructions')}>
-          <textarea
-            id='tts-instructions'
-            className='textarea textarea-sm eink-bordered w-full'
-            rows={3}
-            value={draft.instructions ?? ''}
-            onChange={(e) => update({ instructions: e.target.value })}
-            placeholder={_('Optional, for models that accept a speaking style')}
-          />
-        </Field>
-        {!isMiMoService(draft) && (
+        {!isElevenLabs && (
+          <Field id='tts-instructions' label={_('Instructions')}>
+            <textarea
+              id='tts-instructions'
+              className='textarea textarea-sm eink-bordered w-full'
+              rows={3}
+              value={draft.instructions ?? ''}
+              onChange={(e) => update({ instructions: e.target.value })}
+              placeholder={_('Optional, for models that accept a speaking style')}
+            />
+          </Field>
+        )}
+        {!isMiMoService(draft) && !isElevenLabs && (
           <SettingsRow label={_('Format')}>
             <SettingsSelect
               value={draft.responseFormat ?? 'mp3'}

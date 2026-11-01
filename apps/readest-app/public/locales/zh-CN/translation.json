@@ -2593,5 +2593,7 @@
   "Show Two Pages": "显示双页",
   "Book Data": "书籍数据",
   "Downloaded read-aloud audio and translations": "已下载的朗读音频和翻译",
-  "Link a Reader": "关联阅读器"
+  "Link a Reader": "关联阅读器",
+  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
+  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__"
 }
