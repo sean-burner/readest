@@ -2668,5 +2668,10 @@
   "Exporting {{done}} of {{total}}": "Εξαγωγή {{done}} από {{total}}",
   "Export audiobook": "Εξαγωγή ηχητικού βιβλίου",
   "Audiobook exported": "Το ηχητικό βιβλίο εξήχθη",
-  "Audiobook export failed: {{error}}": "Η εξαγωγή του ηχητικού βιβλίου απέτυχε: {{error}}"
+  "Audiobook export failed: {{error}}": "Η εξαγωγή του ηχητικού βιβλίου απέτυχε: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "Δημιουργία {{done}} από {{total}} · Διακοπή",
+  "Generate audiobook": "Δημιουργία ηχητικού βιβλίου",
+  "Choose a Read Aloud voice to generate the audiobook with": "Επιλέξτε φωνή ανάγνωσης για να δημιουργηθεί το ηχητικό βιβλίο",
+  "Audiobook ready. Read Aloud now plays it.": "Το ηχητικό βιβλίο είναι έτοιμο. Η ανάγνωση φωναχτά το αναπαράγει τώρα.",
+  "Audiobook generation failed: {{error}}": "Η δημιουργία ηχητικού βιβλίου απέτυχε: {{error}}"
 }

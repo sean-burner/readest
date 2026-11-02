@@ -9,6 +9,8 @@ import type { DownloadChapter } from './downloadChapters';
 export interface AudiobookMeta {
   title: string;
   author: string;
+  // The voice, credited as the narrator of a generated audiobook.
+  narrator?: string;
 }
 
 export interface AudiobookSource {
@@ -120,7 +122,7 @@ export const exportAudiobook = async (
   chapters: DownloadChapter[],
   source: AudiobookSource,
   meta: AudiobookMeta,
-  write: (fileName: string, data: Uint8Array) => Promise<void>,
+  write: (fileName: string, data: Uint8Array, chapter: DownloadChapter) => Promise<void>,
   onProgress?: (progress: AudiobookExportProgress) => void,
   signal: AbortSignal = new AbortController().signal,
 ): Promise<void> => {
@@ -145,7 +147,45 @@ export const exportAudiobook = async (
     const file = new Uint8Array(tag.length + audio.length);
     file.set(tag);
     file.set(audio, tag.length);
-    await write(chapterFileName(index, chapters.length, chapter.label), file);
+    await write(chapterFileName(index, chapters.length, chapter.label), file, chapter);
   }
   onProgress?.({ chapter: chapters.length, total: chapters.length });
+};
+
+// Readest's own audiobook player needs each file's length.
+// [MPEG-1, MPEG-2, MPEG-2.5] sample rates by index.
+const SAMPLE_RATES: Record<number, number[]> = {
+  3: [44100, 48000, 32000],
+  2: [22050, 24000, 16000],
+  0: [11025, 12000, 8000],
+};
+// Layer III bitrates in kbps by index, for MPEG-1 and for MPEG-2/2.5.
+const BITRATES_V1 = [0, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320];
+const BITRATES_V2 = [0, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160];
+
+// The playing time of an MP3 (Layer III), by walking its frame headers. An
+// ID3v2 tag in front is skipped; anything that isn't a frame ends the walk.
+export const mp3DurationMs = (bytes: Uint8Array): number => {
+  let at = 0;
+  if (bytes[0] === 0x49 && bytes[1] === 0x44 && bytes[2] === 0x33 && bytes.length >= 10) {
+    at = 10 + ((bytes[6]! << 21) | (bytes[7]! << 14) | (bytes[8]! << 7) | bytes[9]!);
+  }
+  let seconds = 0;
+  while (at + 4 <= bytes.length) {
+    const b1 = bytes[at + 1]!;
+    const b2 = bytes[at + 2]!;
+    if (bytes[at] !== 0xff || (b1 & 0xe0) !== 0xe0) break;
+    const version = (b1 >> 3) & 0x03; // 3: MPEG-1, 2: MPEG-2, 0: MPEG-2.5
+    const bitrateIndex = b2 >> 4;
+    const rateIndex = (b2 >> 2) & 0x03;
+    const sampleRate = SAMPLE_RATES[version]?.[rateIndex];
+    const kbps = (version === 3 ? BITRATES_V1 : BITRATES_V2)[bitrateIndex];
+    if (!sampleRate || !kbps) break;
+    const samples = version === 3 ? 1152 : 576;
+    const padding = (b2 >> 1) & 0x01;
+    const length = Math.floor(((samples / 8) * kbps * 1000) / sampleRate) + padding;
+    seconds += samples / sampleRate;
+    at += length;
+  }
+  return Math.round(seconds * 1000);
 };

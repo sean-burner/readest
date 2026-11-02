@@ -2944,5 +2944,10 @@
   "Exporting {{done}} of {{total}}": "جارٍ التصدير {{done}} من {{total}}",
   "Export audiobook": "تصدير كتاب صوتي",
   "Audiobook exported": "تم تصدير الكتاب الصوتي",
-  "Audiobook export failed: {{error}}": "فشل تصدير الكتاب الصوتي: {{error}}"
+  "Audiobook export failed: {{error}}": "فشل تصدير الكتاب الصوتي: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "جارٍ الإنشاء {{done}} من {{total}} · إيقاف",
+  "Generate audiobook": "إنشاء كتاب صوتي",
+  "Choose a Read Aloud voice to generate the audiobook with": "اختر صوتًا للقراءة بصوت عالٍ لإنشاء الكتاب الصوتي",
+  "Audiobook ready. Read Aloud now plays it.": "الكتاب الصوتي جاهز. القراءة بصوت عالٍ تشغّله الآن.",
+  "Audiobook generation failed: {{error}}": "فشل إنشاء الكتاب الصوتي: {{error}}"
 }

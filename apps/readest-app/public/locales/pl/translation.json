@@ -2806,5 +2806,10 @@
   "Exporting {{done}} of {{total}}": "Eksportowanie {{done}} z {{total}}",
   "Export audiobook": "Eksportuj audiobook",
   "Audiobook exported": "Audiobook wyeksportowany",
-  "Audiobook export failed: {{error}}": "Eksport audiobooka nie powiódł się: {{error}}"
+  "Audiobook export failed: {{error}}": "Eksport audiobooka nie powiódł się: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "Generowanie {{done}} z {{total}} · Zatrzymaj",
+  "Generate audiobook": "Wygeneruj audiobook",
+  "Choose a Read Aloud voice to generate the audiobook with": "Wybierz głos czytania na głos, aby wygenerować audiobook",
+  "Audiobook ready. Read Aloud now plays it.": "Audiobook gotowy. Czytanie na głos odtwarza go teraz.",
+  "Audiobook generation failed: {{error}}": "Nie udało się wygenerować audiobooka: {{error}}"
 }

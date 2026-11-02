@@ -39,6 +39,9 @@ const TTSChaptersView: React.FC<TTSChaptersViewProps> = ({
     clearing,
     exportAudiobook,
     exportProgress,
+    generateAudiobook,
+    stopGenerating,
+    generateProgress,
   } = downloads;
 
   const completeCount = chapters.filter((c) => statusOf(c) === 'complete').length;
@@ -58,7 +61,7 @@ const TTSChaptersView: React.FC<TTSChaptersViewProps> = ({
 
   return (
     <div className='flex w-full flex-col pb-4'>
-      <div className='flex items-center justify-between gap-2 px-2 py-1'>
+      <div className='flex flex-wrap items-center justify-between gap-2 px-2 py-1'>
         <span className='text-base-content/60 text-sm sm:text-xs'>
           {_('{{done}} of {{total}} chapters offline', {
             done: completeCount,
@@ -67,6 +70,29 @@ const TTSChaptersView: React.FC<TTSChaptersViewProps> = ({
           {cacheBytes > 0 ? ` · ${formatBytes(cacheBytes)}` : ''}
         </span>
         <div className='flex shrink-0 items-center gap-2'>
+          {generateProgress ? (
+            <button
+              type='button'
+              className='touch-target text-primary shrink-0 text-sm font-medium sm:text-xs'
+              onClick={stopGenerating}
+            >
+              {_('Generating {{done}} of {{total}} · Stop', {
+                done: generateProgress.chapter,
+                total: generateProgress.total,
+              })}
+            </button>
+          ) : (
+            chapters.length > 0 && (
+              <button
+                type='button'
+                className='touch-target text-primary shrink-0 text-sm font-medium disabled:opacity-40 sm:text-xs'
+                disabled={clearing || !!exportProgress}
+                onClick={() => void generateAudiobook()}
+              >
+                {_('Generate audiobook')}
+              </button>
+            )
+          )}
           {exportProgress ? (
             <span className='text-base-content/60 shrink-0 text-sm sm:text-xs'>
               {_('Exporting {{done}} of {{total}}', {

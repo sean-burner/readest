@@ -2668,5 +2668,10 @@
   "Exporting {{done}} of {{total}}": "در حال خروجی گرفتن {{done}} از {{total}}",
   "Export audiobook": "خروجی کتاب صوتی",
   "Audiobook exported": "کتاب صوتی خروجی گرفته شد",
-  "Audiobook export failed: {{error}}": "خروجی کتاب صوتی ناموفق بود: {{error}}"
+  "Audiobook export failed: {{error}}": "خروجی کتاب صوتی ناموفق بود: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "در حال ساخت {{done}} از {{total}} · توقف",
+  "Generate audiobook": "ساخت کتاب صوتی",
+  "Choose a Read Aloud voice to generate the audiobook with": "برای ساخت کتاب صوتی یک صدای خواندن بلند انتخاب کنید",
+  "Audiobook ready. Read Aloud now plays it.": "کتاب صوتی آماده است. خواندن بلند اکنون آن را پخش می‌کند.",
+  "Audiobook generation failed: {{error}}": "ساخت کتاب صوتی ناموفق بود: {{error}}"
 }

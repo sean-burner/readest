@@ -2668,5 +2668,10 @@
   "Exporting {{done}} of {{total}}": "{{total}} öğeden {{done}} dışa aktarılıyor",
   "Export audiobook": "Sesli kitabı dışa aktar",
   "Audiobook exported": "Sesli kitap dışa aktarıldı",
-  "Audiobook export failed: {{error}}": "Sesli kitap dışa aktarılamadı: {{error}}"
+  "Audiobook export failed: {{error}}": "Sesli kitap dışa aktarılamadı: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "Oluşturuluyor {{done}} / {{total}} · Durdur",
+  "Generate audiobook": "Sesli kitap oluştur",
+  "Choose a Read Aloud voice to generate the audiobook with": "Sesli kitabı oluşturmak için bir sesli okuma sesi seçin",
+  "Audiobook ready. Read Aloud now plays it.": "Sesli kitap hazır. Sesli okuma artık onu çalıyor.",
+  "Audiobook generation failed: {{error}}": "Sesli kitap oluşturulamadı: {{error}}"
 }

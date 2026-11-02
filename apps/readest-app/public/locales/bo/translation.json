@@ -2599,5 +2599,10 @@
   "Exporting {{done}} of {{total}}": "{{total}} ནང་ནས་ {{done}} ཕྱིར་འདྲེན་བཞིན་པ།",
   "Export audiobook": "སྒྲ་ཀློག་དེབ་ཕྱིར་འདྲེན།",
   "Audiobook exported": "སྒྲ་ཀློག་དེབ་ཕྱིར་འདྲེན་ཟིན།",
-  "Audiobook export failed: {{error}}": "སྒྲ་ཀློག་དེབ་ཕྱིར་འདྲེན་མ་ཐུབ། {{error}}"
+  "Audiobook export failed: {{error}}": "སྒྲ་ཀློག་དེབ་ཕྱིར་འདྲེན་མ་ཐུབ། {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "བཟོ་བཞིན་པ། {{done}} / {{total}} · མཚམས་འཇོག",
+  "Generate audiobook": "སྒྲ་དེབ་བཟོ་བ།",
+  "Choose a Read Aloud voice to generate the audiobook with": "སྒྲ་དེབ་བཟོ་བར་སྐད་སྒྲས་ཀློག་པའི་སྐད་གདངས་ཤིག་འདེམས།",
+  "Audiobook ready. Read Aloud now plays it.": "སྒྲ་དེབ་གྲ་སྒྲིག་ཡོད། སྐད་སྒྲས་ཀློག་པས་ད་ལྟ་གཏོང་གི་ཡོད།",
+  "Audiobook generation failed: {{error}}": "སྒྲ་དེབ་བཟོ་མ་ཐུབ། {{error}}"
 }

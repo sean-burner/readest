@@ -2668,5 +2668,10 @@
   "Exporting {{done}} of {{total}}": "ექსპორტი {{done}} / {{total}}",
   "Export audiobook": "აუდიოწიგნის ექსპორტი",
   "Audiobook exported": "აუდიოწიგნი ექსპორტირებულია",
-  "Audiobook export failed: {{error}}": "აუდიოწიგნის ექსპორტი ვერ მოხერხდა: {{error}}"
+  "Audiobook export failed: {{error}}": "აუდიოწიგნის ექსპორტი ვერ მოხერხდა: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "იქმნება {{done}} / {{total}} · შეჩერება",
+  "Generate audiobook": "აუდიოწიგნის შექმნა",
+  "Choose a Read Aloud voice to generate the audiobook with": "აუდიოწიგნის შესაქმნელად აირჩიეთ ხმამაღლა კითხვის ხმა",
+  "Audiobook ready. Read Aloud now plays it.": "აუდიოწიგნი მზადაა. ხმამაღლა კითხვა ახლა მას უკრავს.",
+  "Audiobook generation failed: {{error}}": "აუდიოწიგნის შექმნა ვერ მოხერხდა: {{error}}"
 }

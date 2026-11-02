@@ -2599,5 +2599,10 @@
   "Exporting {{done}} of {{total}}": "Đang xuất {{done}} / {{total}}",
   "Export audiobook": "Xuất sách nói",
   "Audiobook exported": "Đã xuất sách nói",
-  "Audiobook export failed: {{error}}": "Xuất sách nói thất bại: {{error}}"
+  "Audiobook export failed: {{error}}": "Xuất sách nói thất bại: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "Đang tạo {{done}}/{{total}} · Dừng",
+  "Generate audiobook": "Tạo sách nói",
+  "Choose a Read Aloud voice to generate the audiobook with": "Chọn giọng Đọc to để tạo sách nói",
+  "Audiobook ready. Read Aloud now plays it.": "Sách nói đã sẵn sàng. Đọc to giờ sẽ phát sách này.",
+  "Audiobook generation failed: {{error}}": "Tạo sách nói thất bại: {{error}}"
 }

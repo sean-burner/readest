@@ -2668,5 +2668,10 @@
   "Exporting {{done}} of {{total}}": "{{total}} இல் {{done}} ஏற்றுமதி செய்யப்படுகிறது",
   "Export audiobook": "ஒலிப்புத்தகத்தை ஏற்றுமதி செய்",
   "Audiobook exported": "ஒலிப்புத்தகம் ஏற்றுமதி செய்யப்பட்டது",
-  "Audiobook export failed: {{error}}": "ஒலிப்புத்தக ஏற்றுமதி தோல்வி: {{error}}"
+  "Audiobook export failed: {{error}}": "ஒலிப்புத்தக ஏற்றுமதி தோல்வி: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "உருவாக்குகிறது {{done}} / {{total}} · நிறுத்து",
+  "Generate audiobook": "ஒலிப்புத்தகம் உருவாக்கு",
+  "Choose a Read Aloud voice to generate the audiobook with": "ஒலிப்புத்தகத்தை உருவாக்க சத்தமாகப் படிக்கும் குரலைத் தேர்ந்தெடுக்கவும்",
+  "Audiobook ready. Read Aloud now plays it.": "ஒலிப்புத்தகம் தயார். சத்தமாகப் படித்தல் இப்போது அதை இயக்கும்.",
+  "Audiobook generation failed: {{error}}": "ஒலிப்புத்தகத்தை உருவாக்க முடியவில்லை: {{error}}"
 }

@@ -2668,5 +2668,10 @@
   "Exporting {{done}} of {{total}}": "{{total}} में से {{done}} निर्यात हो रहे हैं",
   "Export audiobook": "ऑडियोबुक निर्यात करें",
   "Audiobook exported": "ऑडियोबुक निर्यात हो गई",
-  "Audiobook export failed: {{error}}": "ऑडियोबुक निर्यात विफल: {{error}}"
+  "Audiobook export failed: {{error}}": "ऑडियोबुक निर्यात विफल: {{error}}",
+  "Generating {{done}} of {{total}} · Stop": "बनाया जा रहा है {{done}} / {{total}} · रोकें",
+  "Generate audiobook": "ऑडियोबुक बनाएं",
+  "Choose a Read Aloud voice to generate the audiobook with": "ऑडियोबुक बनाने के लिए ज़ोर से पढ़ने की आवाज़ चुनें",
+  "Audiobook ready. Read Aloud now plays it.": "ऑडियोबुक तैयार है। ज़ोर से पढ़ना अब इसे चलाएगा।",
+  "Audiobook generation failed: {{error}}": "ऑडियोबुक बनाना विफल रहा: {{error}}"
 }
