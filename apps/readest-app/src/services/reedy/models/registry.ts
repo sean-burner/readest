@@ -1,4 +1,5 @@
 import { embed, embedMany } from 'ai';
+import { LOCAL_EMBEDDING_MODEL_ID } from '@/services/ai/localEmbedding';
 import { DEFAULT_ANTHROPIC_MODEL } from '@/services/ai/providers/AnthropicProvider';
 import { getAIProvider } from '@/services/ai/providers';
 import type { AISettings } from '@/services/ai/types';
@@ -135,7 +136,7 @@ function adaptEmbeddingModel(
   id: string,
   settings: AISettings,
 ): EmbeddingModel {
-  const batchSize = settings.provider === 'ollama' ? 4 : 16;
+  const batchSize = settings.provider === 'ollama' ? 4 : settings.provider === 'anthropic' ? 8 : 16;
   let dim: number | null = null;
   return {
     id,
@@ -177,7 +178,7 @@ function embeddingModelIdFor(settings: AISettings): string {
     case 'openrouter':
       return settings.openrouterEmbeddingModel || 'openai/text-embedding-3-small';
     case 'anthropic':
-      // Claude has no embedding model; getEmbeddingModel() throws before this id is used.
-      return 'none';
+      // Claude has no embedding model; books are embedded on the device.
+      return LOCAL_EMBEDDING_MODEL_ID;
   }
 }

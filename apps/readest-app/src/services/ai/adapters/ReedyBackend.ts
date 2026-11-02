@@ -1,4 +1,5 @@
 import { type Tool, embed, embedMany } from 'ai';
+import { LOCAL_EMBEDDING_MODEL_ID } from '@/services/ai/localEmbedding';
 import type { BookDoc } from '@/libs/document';
 import type { AppService } from '@/types/system';
 import { ReedyDb } from '@/services/reedy/db/ReedyDb';
@@ -239,8 +240,8 @@ function embeddingModelIdFor(settings: AISettings): string {
     case 'openrouter':
       return settings.openrouterEmbeddingModel || 'openai/text-embedding-3-small';
     case 'anthropic':
-      // Claude has no embedding model; getEmbeddingModel() throws before this id is used.
-      return 'none';
+      // Claude has no embedding model; books are embedded on the device.
+      return LOCAL_EMBEDDING_MODEL_ID;
   }
 }
 

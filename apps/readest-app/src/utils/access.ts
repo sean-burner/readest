@@ -178,10 +178,7 @@ export const isSelfHosted = (): boolean =>
   getRuntimeConfig()?.selfHosted === true ||
   // `??` would stop at an empty string, so an explicitly blank SELF_HOSTED
   // would mask NEXT_PUBLIC_SELF_HOSTED. `||` falls through on empty too.
-  (process.env['SELF_HOSTED'] || process.env['NEXT_PUBLIC_SELF_HOSTED']) === 'true' ||
-  // Dot access so Next.js inlines the value at build time: a static app bundle
-  // (the iOS personal build) has no server to inject the runtime config.
-  process.env.NEXT_PUBLIC_SELF_HOSTED === 'true';
+  (process.env['SELF_HOSTED'] || process.env['NEXT_PUBLIC_SELF_HOSTED']) === 'true';
 
 /**
  * The single gate for premium features: a self-hosted deployment, a paid

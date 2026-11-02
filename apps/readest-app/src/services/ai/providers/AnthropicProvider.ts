@@ -1,4 +1,5 @@
 import { createAnthropic } from '@ai-sdk/anthropic';
+import { createLocalEmbeddingModel } from '../localEmbedding';
 import { generateText } from 'ai';
 import type { LanguageModel, EmbeddingModel } from 'ai';
 import type { AIProvider, AISettings, AIProviderName } from '../types';
@@ -22,8 +23,8 @@ export { isClaudeConfigured } from '../claude';
  * transport. The web build calls the API straight from the browser, which
  * Anthropic only allows with the direct-browser-access header.
  *
- * Anthropic has no embedding models, so book indexing (RAG) is unavailable
- * with this provider; chat and the context dictionary work without it.
+ * Anthropic has no embedding models, so book indexing (RAG and Reedy) uses a
+ * small model that runs on the device instead (see localEmbedding.ts).
  */
 export class AnthropicProvider implements AIProvider {
   id: AIProviderName = 'anthropic';
@@ -54,10 +55,9 @@ export class AnthropicProvider implements AIProvider {
     return this.client(this.modelId);
   }
 
+  /** Claude has no embedding model, so books are embedded on the device. */
   getEmbeddingModel(): EmbeddingModel {
-    throw new Error(
-      'Claude has no embedding model. Book indexing needs Ollama or an OpenAI-compatible provider.',
-    );
+    return createLocalEmbeddingModel();
   }
 
   async isAvailable(): Promise<boolean> {
