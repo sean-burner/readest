@@ -12,7 +12,7 @@ A free Apple ID can't sign some of Readest's capabilities, so the script turns t
 - The home screen reading widget and "Share to Readest" from other apps (they can't pass data to the app)
 - CarPlay audio and web links that open the app
 
-Reading, the AI features (Claude lookup, Book Notes, animations) and Read Aloud with ElevenLabs all work.
+Reading, the AI features (Claude lookup, Book Notes, animations) and Read Aloud with ElevenLabs all work. The script builds in self-hosted mode, so your own voice services show without a Readest subscription.
 
 ## One-time setup on the Mac
 
@@ -55,7 +55,7 @@ The first build takes 15 to 30 minutes because it compiles all the Rust code, an
 
 The first time you open the app, iOS blocks it. Go to Settings > General > VPN & Device Management, tap your Apple ID, and tap **Trust**.
 
-Then in the app, open Settings > AI, turn it on, pick Claude (Anthropic) and paste your Anthropic API key. Do the same with your ElevenLabs key under Read Aloud if you want ElevenLabs voices.
+Then in the app, open Settings > AI Assistant, turn it on, pick Claude (Anthropic) and paste your Anthropic API key. Do the same with your ElevenLabs key under Read Aloud if you want ElevenLabs voices.
 
 ## Updating to the latest changes
 
