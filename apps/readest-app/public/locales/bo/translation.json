@@ -2594,10 +2594,10 @@
   "Book Data": "དཔེ་དེབ་ཀྱི་གཞི་གྲངས།",
   "Downloaded read-aloud audio and translations": "ཕབ་ལེན་བྱས་པའི་སྐད་སྒྲས་ཀློག་པའི་སྒྲ་དང་ཡིག་སྒྱུར།",
   "Link a Reader": "ཀློག་ཆས་འབྲེལ་མཐུད།",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "གདམ་ཀ། སྐད་གདངས་ID",
+  "No voices found. Check the API key.": "སྐད་གདངས་མ་རྙེད། API ལྡེ་མིག་ལ་ཞིབ་བཤེར་གནང་།",
+  "Exporting {{done}} of {{total}}": "{{total}} ནང་ནས་ {{done}} ཕྱིར་འདྲེན་བཞིན་པ།",
+  "Export audiobook": "སྒྲ་ཀློག་དེབ་ཕྱིར་འདྲེན།",
+  "Audiobook exported": "སྒྲ་ཀློག་དེབ་ཕྱིར་འདྲེན་ཟིན།",
+  "Audiobook export failed: {{error}}": "སྒྲ་ཀློག་དེབ་ཕྱིར་འདྲེན་མ་ཐུབ། {{error}}"
 }

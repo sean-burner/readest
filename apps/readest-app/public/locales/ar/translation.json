@@ -2939,10 +2939,10 @@
   "Book Data": "بيانات الكتاب",
   "Downloaded read-aloud audio and translations": "صوت القراءة بصوت عالٍ الذي تم تنزيله والترجمات",
   "Link a Reader": "ربط قارئ",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "اختياري، معرّفات الأصوات",
+  "No voices found. Check the API key.": "لم يتم العثور على أصوات. تحقق من مفتاح API.",
+  "Exporting {{done}} of {{total}}": "جارٍ التصدير {{done}} من {{total}}",
+  "Export audiobook": "تصدير كتاب صوتي",
+  "Audiobook exported": "تم تصدير الكتاب الصوتي",
+  "Audiobook export failed: {{error}}": "فشل تصدير الكتاب الصوتي: {{error}}"
 }

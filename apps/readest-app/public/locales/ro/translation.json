@@ -2732,10 +2732,10 @@
   "Book Data": "Datele cărții",
   "Downloaded read-aloud audio and translations": "Audio descărcat de citire cu voce tare și traduceri",
   "Link a Reader": "Conectează un cititor",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "Opțional, ID-uri de voci",
+  "No voices found. Check the API key.": "Nu s-au găsit voci. Verifică cheia API.",
+  "Exporting {{done}} of {{total}}": "Se exportă {{done}} din {{total}}",
+  "Export audiobook": "Exportă cartea audio",
+  "Audiobook exported": "Cartea audio a fost exportată",
+  "Audiobook export failed: {{error}}": "Exportul cărții audio a eșuat: {{error}}"
 }

@@ -2594,10 +2594,10 @@
   "Book Data": "ข้อมูลหนังสือ",
   "Downloaded read-aloud audio and translations": "เสียงอ่านออกเสียงที่ดาวน์โหลดและคำแปล",
   "Link a Reader": "เชื่อมต่อเครื่องอ่าน",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "ไม่บังคับ, ID เสียง",
+  "No voices found. Check the API key.": "ไม่พบเสียง ตรวจสอบคีย์ API",
+  "Exporting {{done}} of {{total}}": "กำลังส่งออก {{done}} จาก {{total}}",
+  "Export audiobook": "ส่งออกหนังสือเสียง",
+  "Audiobook exported": "ส่งออกหนังสือเสียงแล้ว",
+  "Audiobook export failed: {{error}}": "ส่งออกหนังสือเสียงไม่สำเร็จ: {{error}}"
 }

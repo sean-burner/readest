@@ -2663,10 +2663,10 @@
   "Book Data": "පොත් දත්ත",
   "Downloaded read-aloud audio and translations": "බාගත කළ හඬ නගා කියවීමේ ශ්‍රව්‍ය සහ පරිවර්තන",
   "Link a Reader": "කියවනයක් සම්බන්ධ කරන්න",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "විකල්ප, හඬ ID",
+  "No voices found. Check the API key.": "හඬ කිසිවක් හමු නොවීය. API යතුර පරීක්ෂා කරන්න.",
+  "Exporting {{done}} of {{total}}": "{{total}} න් {{done}} අපනයනය කරමින්",
+  "Export audiobook": "ශ්‍රව්‍ය පොත අපනයනය කරන්න",
+  "Audiobook exported": "ශ්‍රව්‍ය පොත අපනයනය කළා",
+  "Audiobook export failed: {{error}}": "ශ්‍රව්‍ය පොත අපනයනය අසාර්ථකයි: {{error}}"
 }

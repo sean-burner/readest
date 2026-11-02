@@ -2663,10 +2663,10 @@
   "Book Data": "Kitap Verileri",
   "Downloaded read-aloud audio and translations": "İndirilen sesli okuma kayıtları ve çeviriler",
   "Link a Reader": "Okuyucu bağla",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "İsteğe bağlı, ses kimlikleri",
+  "No voices found. Check the API key.": "Ses bulunamadı. API anahtarını kontrol edin.",
+  "Exporting {{done}} of {{total}}": "{{total}} öğeden {{done}} dışa aktarılıyor",
+  "Export audiobook": "Sesli kitabı dışa aktar",
+  "Audiobook exported": "Sesli kitap dışa aktarıldı",
+  "Audiobook export failed: {{error}}": "Sesli kitap dışa aktarılamadı: {{error}}"
 }

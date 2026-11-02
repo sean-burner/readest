@@ -2801,10 +2801,10 @@
   "Book Data": "Podatki knjige",
   "Downloaded read-aloud audio and translations": "Prenesen zvok branja na glas in prevodi",
   "Link a Reader": "Poveži bralnik",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "Izbirno, ID-ji glasov",
+  "No voices found. Check the API key.": "Ni najdenih glasov. Preverite ključ API.",
+  "Exporting {{done}} of {{total}}": "Izvažanje {{done}} od {{total}}",
+  "Export audiobook": "Izvozi zvočno knjigo",
+  "Audiobook exported": "Zvočna knjiga izvožena",
+  "Audiobook export failed: {{error}}": "Izvoz zvočne knjige ni uspel: {{error}}"
 }

@@ -2663,10 +2663,10 @@
   "Book Data": "বইয়ের ডেটা",
   "Downloaded read-aloud audio and translations": "ডাউনলোড করা পড়ে শোনানোর অডিও ও অনুবাদ",
   "Link a Reader": "রিডার লিংক করুন",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "ঐচ্ছিক, ভয়েস আইডি",
+  "No voices found. Check the API key.": "কোনো ভয়েস পাওয়া যায়নি। API কী যাচাই করুন।",
+  "Exporting {{done}} of {{total}}": "{{total}}টির মধ্যে {{done}}টি রপ্তানি হচ্ছে",
+  "Export audiobook": "অডিওবুক রপ্তানি করুন",
+  "Audiobook exported": "অডিওবুক রপ্তানি হয়েছে",
+  "Audiobook export failed: {{error}}": "অডিওবুক রপ্তানি ব্যর্থ: {{error}}"
 }

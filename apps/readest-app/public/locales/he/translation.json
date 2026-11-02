@@ -2732,10 +2732,10 @@
   "Book Data": "נתוני ספר",
   "Downloaded read-aloud audio and translations": "שמע הקראה שהורד ותרגומים",
   "Link a Reader": "קישור קורא",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "אופציונלי, מזהי קולות",
+  "No voices found. Check the API key.": "לא נמצאו קולות. בדקו את מפתח ה-API.",
+  "Exporting {{done}} of {{total}}": "מייצא {{done}} מתוך {{total}}",
+  "Export audiobook": "ייצוא ספר שמע",
+  "Audiobook exported": "ספר השמע יוצא",
+  "Audiobook export failed: {{error}}": "ייצוא ספר השמע נכשל: {{error}}"
 }

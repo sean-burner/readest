@@ -2663,10 +2663,10 @@
   "Book Data": "புத்தகத் தரவு",
   "Downloaded read-aloud audio and translations": "பதிவிறக்கிய உரக்கப் படிக்கும் ஒலி மற்றும் மொழிபெயர்ப்புகள்",
   "Link a Reader": "ரீடரை இணைக்கவும்",
-  "Optional, voice IDs": "__STRING_NOT_TRANSLATED__",
-  "No voices found. Check the API key.": "__STRING_NOT_TRANSLATED__",
-  "Exporting {{done}} of {{total}}": "__STRING_NOT_TRANSLATED__",
-  "Export audiobook": "__STRING_NOT_TRANSLATED__",
-  "Audiobook exported": "__STRING_NOT_TRANSLATED__",
-  "Audiobook export failed: {{error}}": "__STRING_NOT_TRANSLATED__"
+  "Optional, voice IDs": "விருப்பத்தேர்வு, குரல் ID-கள்",
+  "No voices found. Check the API key.": "குரல்கள் எதுவும் கிடைக்கவில்லை. API விசையைச் சரிபார்க்கவும்.",
+  "Exporting {{done}} of {{total}}": "{{total}} இல் {{done}} ஏற்றுமதி செய்யப்படுகிறது",
+  "Export audiobook": "ஒலிப்புத்தகத்தை ஏற்றுமதி செய்",
+  "Audiobook exported": "ஒலிப்புத்தகம் ஏற்றுமதி செய்யப்பட்டது",
+  "Audiobook export failed: {{error}}": "ஒலிப்புத்தக ஏற்றுமதி தோல்வி: {{error}}"
 }

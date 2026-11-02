@@ -63,8 +63,9 @@ describe('AnthropicProvider', () => {
     ).toEqual({ modelId: 'claude-haiku-5-5' });
   });
 
-  test('has no embedding model', () => {
-    expect(() => new AnthropicProvider(settings()).getEmbeddingModel()).toThrow(/embedding/);
+  test('embeds books on the device', () => {
+    const model = new AnthropicProvider(settings()).getEmbeddingModel();
+    expect(model).toMatchObject({ provider: 'local', modelId: 'Xenova/all-MiniLM-L6-v2' });
   });
 
   test('health check reports whether a request succeeds', async () => {
