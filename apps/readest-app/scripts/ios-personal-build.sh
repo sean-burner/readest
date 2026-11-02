@@ -72,6 +72,10 @@ node -e '
   const c = JSON.parse(fs.readFileSync(f, "utf8"));
   c.identifier = process.argv[1];
   c.bundle.iOS.developmentTeam = process.argv[2];
+  // The deep-link plugin adds Associated Domains for app links at build time,
+  // which a personal team cannot sign. Keep only the custom URL schemes.
+  const dl = c.plugins && c.plugins["deep-link"];
+  if (dl && Array.isArray(dl.mobile)) dl.mobile = dl.mobile.filter((m) => !m.appLink);
   fs.writeFileSync(f, JSON.stringify(c, null, 2) + "\n");
 ' "$BUNDLE_ID" "$TEAM"
 for f in "$GEN/project.yml" "$GEN/Readest.xcodeproj/project.pbxproj"; do
