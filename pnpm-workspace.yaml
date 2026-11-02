@@ -9,6 +9,7 @@ allowBuilds:
   '@sentry/cli': true
   core-js: true
   edgedriver: true
+  onnxruntime-node: false
   esbuild: true
   geckodriver: true
   protobufjs: true

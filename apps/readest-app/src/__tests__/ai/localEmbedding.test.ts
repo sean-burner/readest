@@ -34,7 +34,11 @@ describe('local embeddings', () => {
 
   test('loads the library once and retries after a failure', async () => {
     const pipeline = vi.fn(async () => fakeExtractor);
-    const env = { allowLocalModels: true, useBrowserCache: false };
+    const env = {
+      allowLocalModels: true,
+      useBrowserCache: false,
+      backends: { onnx: {} as { wasm?: { wasmPaths?: unknown; numThreads?: number } } },
+    };
     const importModule = vi
       .fn()
       .mockRejectedValueOnce(new Error('offline'))
@@ -47,11 +51,18 @@ describe('local embeddings', () => {
       dtype: 'q8',
     });
     expect(env.allowLocalModels).toBe(false);
+    expect(importModule.mock.calls[0]![0]).toMatch(
+      /\/vendor\/transformers\/transformers\.min\.js$/,
+    );
+    expect(env.backends.onnx.wasm).toMatchObject({
+      numThreads: 1,
+      wasmPaths: { wasm: expect.stringMatching(/asyncify\.wasm$/) },
+    });
   });
 
   test('works as an AI SDK embedding model', async () => {
     await loadLocalExtractor(async () => ({
-      env: { allowLocalModels: true, useBrowserCache: false },
+      env: { allowLocalModels: true, useBrowserCache: false, backends: { onnx: {} } },
       pipeline: async () => fakeExtractor,
     }));
     const { embeddings } = await embedMany({

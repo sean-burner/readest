@@ -156,6 +156,7 @@ done
 # 3. Build a development-signed IPA.
 # Self-hosted mode unlocks features that are otherwise premium, such as your
 # own TTS services (ElevenLabs). It only changes these client-side checks.
+pnpm copy-transformers
 NEXT_PUBLIC_SELF_HOSTED=true pnpm exec dotenv -e .env.tauri -- tauri ios build --export-method debugging
 
 IPA="$(ls -t "$GEN"/build/arm64/*.ipa 2>/dev/null | head -1 || true)"

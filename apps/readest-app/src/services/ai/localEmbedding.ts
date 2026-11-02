@@ -6,17 +6,21 @@ import type { EmbeddingModel } from 'ai';
  * the AI Assistant's book search then costs nothing and nothing leaves the
  * device.
  *
- * transformers.js is loaded from the CDN on first use rather than bundled: it
- * is large, ships its own ONNX runtime and is only needed once someone indexes
- * a book. The model (about 25 MB) is downloaded from Hugging Face on first use
- * and cached by the browser where the Cache API is available.
+ * transformers.js and its ONNX runtime ship with the app under
+ * public/vendor/transformers (copied by scripts/copy-transformers.mjs) and are
+ * imported by URL on first use, so they stay out of the JS bundle and nothing
+ * runs from a CDN. The model (about 25 MB) is downloaded from Hugging Face on
+ * first use and cached by the browser where the Cache API is available.
  */
 
 export const LOCAL_EMBEDDING_MODEL_ID = 'Xenova/all-MiniLM-L6-v2';
 export const LOCAL_EMBEDDING_DIM = 384;
 
-const TRANSFORMERS_URL =
-  'https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.1/dist/transformers.min.js';
+const VENDOR_PATH = '/vendor/transformers/';
+const ORT_FILE = 'ort-wasm-simd-threaded.asyncify';
+
+const vendorUrl = (file: string) =>
+  new URL(VENDOR_PATH + file, globalThis.location?.origin ?? 'http://localhost').href;
 
 /** Texts per model call; small batches keep phone memory use low. */
 const BATCH_SIZE = 8;
@@ -27,7 +31,11 @@ type Extractor = (
 ) => Promise<{ tolist(): number[][] }>;
 
 interface TransformersModule {
-  env: { allowLocalModels: boolean; useBrowserCache: boolean };
+  env: {
+    allowLocalModels: boolean;
+    useBrowserCache: boolean;
+    backends: { onnx: { wasm?: { wasmPaths?: unknown; numThreads?: number } } };
+  };
   pipeline(task: 'feature-extraction', model: string, options?: object): Promise<Extractor>;
 }
 
@@ -40,9 +48,17 @@ export const loadLocalExtractor = (
 ): Promise<Extractor> => {
   if (!extractorPromise) {
     extractorPromise = (async () => {
-      const transformers = await importModule(TRANSFORMERS_URL);
-      transformers.env.allowLocalModels = false;
-      transformers.env.useBrowserCache = typeof caches !== 'undefined';
+      const transformers = await importModule(vendorUrl('transformers.min.js'));
+      const { env } = transformers;
+      env.allowLocalModels = false;
+      env.useBrowserCache = typeof caches !== 'undefined';
+      env.backends.onnx.wasm ??= {};
+      env.backends.onnx.wasm.wasmPaths = {
+        mjs: vendorUrl(`${ORT_FILE}.mjs`),
+        wasm: vendorUrl(`${ORT_FILE}.wasm`),
+      };
+      // The app isn't cross-origin isolated, so ONNX can't use worker threads.
+      env.backends.onnx.wasm.numThreads = 1;
       return transformers.pipeline('feature-extraction', LOCAL_EMBEDDING_MODEL_ID, {
         dtype: 'q8',
       });
