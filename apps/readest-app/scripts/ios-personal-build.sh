@@ -38,6 +38,12 @@ die() {
 [ "$(uname)" = "Darwin" ] || die "run this on a Mac"
 command -v xcodebuild >/dev/null || die "Xcode is not installed"
 
+# Homebrew's rustup is keg-only, so cargo may not be on PATH.
+for d in /opt/homebrew/opt/rustup/bin /usr/local/opt/rustup/bin "$HOME/.cargo/bin"; do
+  [ -d "$d" ] && PATH="$d:$PATH"
+done
+command -v cargo >/dev/null || die "Rust is not installed (see docs/ios-personal-build.md)"
+
 if ! git diff --quiet -- "${PATCHED[@]}"; then
   die "these files have local changes; commit or discard them first: ${PATCHED[*]}"
 fi
@@ -47,6 +53,12 @@ if [ -z "$TEAM" ]; then
   TEAM="$(security find-certificate -c "Apple Development" -p 2>/dev/null |
     openssl x509 -noout -subject 2>/dev/null |
     sed -n 's/.*OU *= *\([A-Z0-9]\{10\}\).*/\1/p' | head -1)"
+fi
+if [ -z "$TEAM" ]; then
+  # Signed in to Xcode but no certificate yet: Xcode creates one during the
+  # build, so take the team id from Xcode's account settings.
+  TEAM="$(defaults read com.apple.dt.Xcode IDEProvisioningTeamByIdentifier 2>/dev/null |
+    sed -n 's/.*teamID = "*\([A-Z0-9]\{10\}\)"*;.*/\1/p' | head -1)"
 fi
 [ -n "$TEAM" ] || die "no team id. Sign in to Xcode with your Apple ID first (Xcode > Settings > Accounts), or set APPLE_TEAM_ID"
 
@@ -64,6 +76,51 @@ restore() {
   fi
 }
 trap restore EXIT
+
+# 0. Template files Tauri generates but the repo doesn't commit (src-tauri/gen
+#    is ignored apart from Readest's own files). They stay on disk afterwards.
+if [ ! -f "$GEN/Readest_iOS/Info.plist" ] || [ ! -d "$GEN/Assets.xcassets" ]; then
+  echo "Generating the iOS project template (first run only)..."
+  command -v xcodegen >/dev/null || brew install xcodegen
+  pnpm exec tauri ios init --ci --skip-targets-install
+  # Put back the files Readest keeps in git that init rewrites.
+  git -C "$APP_DIR" checkout -- "$GEN"
+  if [ ! -f "$GEN/Readest_iOS/Info.plist" ]; then
+    # Base plist; the build merges src-tauri/Info-ios.plist into it.
+    cat >"$GEN/Readest_iOS/Info.plist" <<'PLIST'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleDevelopmentRegion</key><string>$(DEVELOPMENT_LANGUAGE)</string>
+  <key>CFBundleExecutable</key><string>$(EXECUTABLE_NAME)</string>
+  <key>CFBundleIdentifier</key><string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+  <key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
+  <key>CFBundleName</key><string>$(PRODUCT_NAME)</string>
+  <key>CFBundlePackageType</key><string>APPL</string>
+  <key>CFBundleShortVersionString</key><string>$(MARKETING_VERSION)</string>
+  <key>CFBundleVersion</key><string>$(CURRENT_PROJECT_VERSION)</string>
+  <key>LSRequiresIPhoneOS</key><true/>
+  <key>UILaunchStoryboardName</key><string>LaunchScreen</string>
+  <key>UIRequiredDeviceCapabilities</key><array><string>arm64</string></array>
+  <key>UISupportedInterfaceOrientations</key>
+  <array>
+    <string>UIInterfaceOrientationPortrait</string>
+    <string>UIInterfaceOrientationLandscapeLeft</string>
+    <string>UIInterfaceOrientationLandscapeRight</string>
+  </array>
+  <key>UISupportedInterfaceOrientations~ipad</key>
+  <array>
+    <string>UIInterfaceOrientationPortrait</string>
+    <string>UIInterfaceOrientationPortraitUpsideDown</string>
+    <string>UIInterfaceOrientationLandscapeLeft</string>
+    <string>UIInterfaceOrientationLandscapeRight</string>
+  </array>
+</dict>
+</plist>
+PLIST
+  fi
+fi
 
 # 1. Team and bundle id.
 node -e '
