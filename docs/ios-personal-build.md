@@ -51,7 +51,7 @@ cd apps/readest-app
 bash scripts/ios-personal-build.sh
 ```
 
-The first build takes 15 to 30 minutes because it compiles all the Rust code. Later builds are faster.
+The first build takes 15 to 30 minutes because it compiles all the Rust code, and needs about 20 GB of free disk space. Later builds are faster.
 
 The first time you open the app, iOS blocks it. Go to Settings > General > VPN & Device Management, tap your Apple ID, and tap **Trust**.
 
@@ -73,4 +73,5 @@ This also renews the 7-day limit on a free account.
 - **"no team id"**: you haven't added an Apple Development certificate yet (setup step 2). You can also pass the id yourself: `APPLE_TEAM_ID=ABCDE12345 bash scripts/ios-personal-build.sh`. Your team id is in Xcode > Settings > Accounts, or in Keychain Access under the "Apple Development" certificate's Organizational Unit.
 - **Signing or provisioning errors**: run with `KEEP_PATCH=1` so the project stays switched to your account, open `src-tauri/gen/apple/Readest.xcodeproj` in Xcode, choose your team under Signing & Capabilities for the Readest_iOS, ShareExtension and ReadestWidget targets, then run the script again. Afterwards undo the changes with `git checkout -- src-tauri`.
 - **Free account limits**: a free Apple ID can have 3 of your own apps installed at once and create up to 10 app ids a week. Keep the same `BUNDLE_ID` between builds.
+- **"No space left on device"**: free about 20 GB and run the script again; compiled Rust code is kept. Old iOS debug symbols in `~/Library/Developer/Xcode/iOS DeviceSupport` are safe to delete.
 - **Install fails**: unlock the phone and check it still trusts the Mac. To install by hand, drag the `.ipa` from `src-tauri/gen/apple/build/arm64/` onto the phone in Xcode > Window > Devices and Simulators.
